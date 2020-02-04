@@ -2,6 +2,7 @@ package com.backend;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,11 +28,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/security/authenticate").permitAll().anyRequest()
-				.authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.csrf().disable().cors().disable().authorizeRequests().antMatchers("/security/authenticate").permitAll()
+				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll().anyRequest().authenticated().and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		http.addFilterBefore(requestFiter, UsernamePasswordAuthenticationFilter.class);
+		// http.addFilterBefore(corsFilter(), SessionManagementFilter.class); // adds
+		// your custom CorsFilter
 	}
+
+//	@Bean
+//	CorsFilter corsFilter() {
+//		CorsFilter filter = new CorsFilter();
+//		return filter;
+//	}
 
 	@Bean
 	public AuthenticationManager authenticationManager() throws Exception {

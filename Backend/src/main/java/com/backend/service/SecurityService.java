@@ -12,7 +12,9 @@ import com.backend.model.AuthenticationRequest;
  *
  */
 public interface SecurityService {
-	
+
 	ResponseEntity<?> createAuthenticationToken(AuthenticationRequest authenticationRequest) throws Exception;
+
+	ResponseEntity<?> refreshToken(String token);
 
 }
