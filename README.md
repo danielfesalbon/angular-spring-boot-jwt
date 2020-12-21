@@ -8,7 +8,7 @@
  - JSON Web Token Authentication
  - Spring Security User Authentication
  - Database integration (databases compatible with spring)
- - Access Rights and User Role Intergration
+ - Access Rights and User Role Integration
  
  
 # References
