@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VapecommerceApplication {
+public class ServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(VapecommerceApplication.class, args);
+		SpringApplication.run(ServiceApplication.class, args);
 	}
 
 }
