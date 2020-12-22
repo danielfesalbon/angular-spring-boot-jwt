@@ -73,9 +73,7 @@ public class RequestFilterUtil extends OncePerRequestFilter {
 			}
 		}
 
-		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
-
 		res.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 		res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");

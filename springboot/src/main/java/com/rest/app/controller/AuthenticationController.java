@@ -66,10 +66,6 @@ public class AuthenticationController {
 				return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
 			}
 
-			if (res == null) {
-				System.out.println("not found");
-			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			// TODO: handle exception
