@@ -1,0 +1,90 @@
+<div id="stloginnav" class="navbar nav-shadow sticky">
+    <button pButton pRipple label="Register" class="p-button-outlined p-mr-2 p-mb-2" (click)="onreg()"></button>
+    <button pButton pRipple label="Log in" class="p-mr-2 p-mb-2" (click)="onsign()"></button>
+
+</div>
+
+<div class="login-page" *ngIf="toregister">
+    <div class="p-grid p-fluid">
+        <div class="p-col-12 p-md-6 p-lg-3">
+            <div class="box"></div>
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-6">
+            <div class="register-form">
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-6 p-lg-12">
+                        <label for="user">Name</label>
+                        <input id="user" type="text" pInputText>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-6 p-lg-6">
+                        <label for="username">Username</label>
+                        <input id="username" type="text" pInputText>
+                    </div>
+                    <div class="p-col-12 p-md-6 p-lg-6">
+                        <label for="email">Email</label>
+                        <input id="email" type="text" pInputText>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-6 p-lg-6">
+                        <label for="password1">Password</label>
+                        <input id="password1" type="text" pInputText>
+                    </div>
+                    <div class="p-col-12 p-md-6 p-lg-6">
+                        <label for="email">Recovery Question</label>
+                        <input id="email" type="text" pInputText>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-6 p-lg-6">
+                        <label for="password2">Confirm Password</label>
+                        <input id="password2" type="text" pInputText>
+                    </div>
+                    <div class="p-col-12 p-md-6 p-lg-6">
+                        <label for="email">Recovery Answer</label>
+                        <input id="email" type="text" pInputText>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-6 p-lg-6">
+                    </div>
+                    <div class="p-col-12 p-md-6 p-lg-6">
+                        <label for="regButton" class="dot">.</label>
+                        <button id="regButton" pButton pRipple type="button" label="Save new user" class="p-button-raised p-button-info"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-3">
+            <div class="box"></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="login-page" *ngIf="tosignin">
+    <div class="p-grid p-fluid">
+        <div class="p-col-12 p-md-6 p-lg-4">
+            <div class="box"></div>
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-4">
+            <div class="box login-form">
+                <div class="p-field">
+                    <label for="username">Username</label>
+                    <input id="username" type="text" pInputText [(ngModel)]="credentials.username">
+                </div>
+                <div class="p-field">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" pInputText [(ngModel)]="credentials.password">
+                </div>
+                <div class="p-field">
+                    <button pButton pRipple type="button" label="Sign in" class="p-button-raised p-button-success" (click)="usersignin()"></button>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-4">
+                <div class="box"></div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,134 @@
+<p-dataView #dv [value]="products" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+    <ng-template pTemplate="header">
+        <!--<div class="p-d-inline-flex p-flex-column p-flex-md-row p-jc-md-between">
+            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+            <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price" (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
+            <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+                <i class="pi pi-search"></i>
+                <input type="search" pInputText placeholder="Search by Name" (input)="dv.filter($event.target.value)">
+            </span>
+            <button pButton icon="pi pi-shopping-cart"></button>
+        </div>-->
+        <div class="p-grid p-fluid">
+            <div class="p-col-12 p-md-6 p-lg-2">
+                <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price" (onChange)="onSortChange($event)" [style]="{width: '100%'}"></p-dropdown>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-5">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input type="search" pInputText placeholder="Search by Name"
+                        (input)="dv.filter($event.target.value)">
+                </span>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-2"> <button pButton pRipple icon="pi pi-shopping-cart" label="View Cart" (click)="viewcart()"></button>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template let-product pTemplate="listItem">
+        <div class="p-col-12">
+            <div class="product-list-item">
+                <!--<img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.name" />-->
+                <div class="product-list-detail">
+                    <div class="product-name">{{product.name}}</div>
+                    <div class="product-description">{{product.description}}</div>
+                    <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.category}}</span>
+                </div>
+                <div class="product-list-action">
+                    <span class="product-price">${{product.price}}</span>
+                    <button pButton pRipple icon="pi pi-shopping-cart" label="Add to Cart" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>
+                    <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template let-product pTemplate="gridItem">
+        <div class="p-col-12 p-md-4">
+            <div class="product-grid-item card">
+                <div class="product-grid-item-top">
+                    <div>
+                        <i class="pi pi-tag product-category-icon"></i>
+                        <span class="product-category">{{product.category}}</span>
+                    </div>
+                    <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
+                </div>
+                <div class="product-grid-item-content">
+                    <!--<img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.name" />-->
+                    <div class="product-name">{{product.name}}</div>
+                    <div class="product-description">{{product.description}}</div>
+                </div>
+                <div class="product-grid-item-bottom">
+                    <span class="product-price">${{product.price}}</span>
+                    <button pButton pRipple icon="pi pi-shopping-cart" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-dataView>
+
+
+<!--<p-button (click)="showModalDialog()" icon="pi pi-external-link" label="Show"></p-button>-->
+
+
+<p-dialog header="Order Cart" [closable]="false" [(visible)]="cartmodal" [modal]="true" [style]="{width: '80%'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+
+    <div class="p-grid">
+        <div class="p-col-12 p-md-6 p-lg-6">
+            <p-table [value]="order" [scrollable]="true" scrollHeight="220px">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data>
+                    <tr>
+                        <td>{{data.productid}}</td>
+                        <td>{{data.quantity}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-6">
+            <div class="p-grid p-fluid">
+                <div class="p-col-12 p-md-6 p-lg-6">
+                    <label for="customername">Customer Name</label>
+                    <input id="customername" type="text" pInputText>
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-6">
+                    <label for="customernumber">Contact No.</label>
+                    <input id="customernumber" type="text" pInputText>
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-12">
+                    <label for="customeraddress">Address</label>
+                    <input id="customeraddress" type="text" pInputText>
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-6">
+                    Total Purchase Amount
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-6">
+                    100.00
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-6">
+                    Tendered Amount
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-6">
+                    <input id="amount" type="text" pInputText>
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-6">
+                    Change
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-6">
+                    0.00
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" (click)="cartmodal=false" label="Close" styleClass="p-button-text" class="p-button-secondary"></button>
+    </ng-template>
+</p-dialog>

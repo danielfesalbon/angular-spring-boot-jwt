@@ -1,0 +1,21 @@
+<div class="layout">
+    <ul>
+        <li><a routerLink="/main">Dashboard</a></li>
+        <li><a routerLink="transaction"> Transaction</a></li>
+        <li><a routerLink="purchase">Purchase</a></li>
+        <li><a routerLink="product">Product</a></li>
+        <li><a routerLink="sales">Sales</a></li>
+        <li><a routerLink="settings">Settings</a></li>
+        <li style="float:right" class="btn"> <button pButton pRipple label="Log out" icon="pi pi-sign-out" class="p-mr-2 p-mb-2" (click)="onlogout()"></button>
+        </li>
+    </ul>
+
+    <div class="header">
+
+    </div>
+
+    <router-outlet></router-outlet>
+</div>
+
+
+<p-confirmDialog [baseZIndex]="10000" rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>

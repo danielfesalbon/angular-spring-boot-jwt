@@ -1,0 +1,24 @@
+<p-table [value]="records" styleClass="p-datatable-responsive-demo">
+    <ng-template pTemplate="header">
+        <tr>
+            <th class="tx-col">TRANSACTION ID</th>
+            <th class="amount-col">AMOUNT</th>
+            <th class="date-col">DATE</th>
+            <th class="user-col">USER</th>
+            <th class="view-col">VIEW</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-data>
+        <tr>
+            <td class="tx-col"><span class="p-column-title">TRANSACTION ID</span>{{data.transactionid}}
+            </td>
+            <td class="amount-col"><span class="p-column-title">AMOUNT</span>{{data.amount}}</td>
+            <td class="date-col"><span class="p-column-title">DATE</span>{{data.txdate | date: 'medium'}}</td>
+            <td class="user-col"><span class="p-column-title">USER</span>{{data.user}}</td>
+            <td class="view-col"><span class="p-column-title">VIEW</span>
+                <button pButton pRipple icon="pi pi-list" class="p-button-raised p-button-help"></button>
+            </td>
+
+        </tr>
+    </ng-template>
+</p-table>

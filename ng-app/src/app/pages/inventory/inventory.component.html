@@ -1,0 +1,40 @@
+<div class="p-grid pad-top">
+    <div class="p-col-12 p-md-6 p-lg-3">
+        <button pButton pRipple icon="pi pi-plus-circle" label="New Product" class="p-button-raised"></button>
+    </div>
+    <div class="p-col-12 p-md-6 p-lg-6">
+    </div>
+    <div class="p-col-12 p-md-6 p-lg-3 p-fluid">
+        <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input type="search" pInputText placeholder="Search by Product name">
+        </span>
+    </div>
+</div>
+
+<p-table [value]="products" styleClass="p-datatable-responsive-demo">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>PRODUCT ID</th>
+            <th>PRODUCT NAME</th>
+            <th>DELCARED PRICE</th>
+            <th>QUANTITY</th>
+            <th>ACTION</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+        <tr>
+            <td><span class="p-column-title">PRODUCT ID</span>{{product.productid}}
+            </td>
+            <td><span class="p-column-title">PRODUCT NAME</span>{{product.productname}}</td>
+            <td><span class="p-column-title">DELCARED PRICE</span>{{product.declaredprice}}</td>
+            <td><span class="p-column-title">QUANTITY</span>{{product.stock}}</td>
+            <td><span class="p-column-title">ACTION</span>
+                <span class="p-buttonset">
+                    <button pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-raised p-button-help"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-raised p-button-danger"></button>
+                </span></td>
+
+        </tr>
+    </ng-template>
+</p-table>
