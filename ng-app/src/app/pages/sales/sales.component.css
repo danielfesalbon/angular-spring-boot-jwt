@@ -2,6 +2,35 @@
     display: none;
 }
 
+:host ::ng-deep .p-datatable-responsive-demo .p-datatable-tbody>tr>td {
+    padding: 0.2em;
+    padding-left: 1em;
+}
+
+:host ::ng-deep .p-datatable-responsive-demo .p-datatable-tbody>tr>td.view-col {
+    text-align: center;
+}
+
+:host ::ng-deep .p-datatable-responsive-demo .p-datatable-thead>tr>th.view-col {
+    text-align: center;
+}
+
+:host ::ng-deep .p-datatable-responsive-demo .p-datatable-thead>tr>th.date-col {
+    text-align: center;
+}
+
+:host ::ng-deep .p-datatable-responsive-demo .p-datatable-tbody>tr>td.date-col {
+    text-align: center;
+}
+
+:host ::ng-deep .p-datatable-responsive-demo .p-datatable-tbody>tr>td.amount-col {
+    text-align: center;
+}
+
+:host ::ng-deep .p-datatable-responsive-demo .p-datatable-thead>tr>th.amount-col {
+    text-align: center;
+}
+
 @media screen and (max-width: 40rem) {
      :host ::ng-deep .p-datatable.p-datatable-responsive-demo .p-datatable-thead>tr>th,
      :host ::ng-deep .p-datatable.p-datatable-responsive-demo .p-datatable-tfoot>tr>td {
@@ -37,9 +66,18 @@
     text-align: center;
 }
 
+.date-col {
+    width: 30%;
+}
 
-/*.user-col {}
+.tx-col {
+    width: 15%;
+}
 
-.date-col {}
+.pad-top {
+    padding-top: 0.5em;
+}
 
-.tx-col {}*/
+.rpt-button {
+    margin-right: 1em;
+}

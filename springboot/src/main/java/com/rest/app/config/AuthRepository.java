@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rest.app.service.UserJPARepository;
+import com.rest.app.service.UseraccountRepository;
 import com.rest.app.table.Useraccount;
 
 /**
@@ -27,7 +27,7 @@ import com.rest.app.table.Useraccount;
 public class AuthRepository implements UserDetailsService {
 
 	@Autowired
-	private UserJPARepository userService;
+	private UseraccountRepository userService;
 
 	@SuppressWarnings("unused")
 	@Autowired

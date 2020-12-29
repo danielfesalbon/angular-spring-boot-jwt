@@ -1,0 +1,54 @@
+<p-panel header="Transaction: {{purchase.transactionid}}">
+
+
+    <div class="p-grid p-fluid">
+        <div class="p-col-12 p-md-6 p-lg-4">
+            <label>Name: <b>{{purchase.name}}</b></label>
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-4">
+            <label>Contact: <b>{{purchase.contact}}</b></label>
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-4">
+            <label>Address: <b>{{purchase.address}}</b></label>
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-4">
+            <label>Total <b>{{purchase.transactionvalue | number: '1.2'}}</b></label>
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-4">
+            <label>Payment <b>{{purchase.transactionpayment | number: '1.2'}}</b></label>
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-4">
+            <label>Change <b>{{purchase.transactionchange | number: '1.2'}}</b></label>
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-4">
+            <label>Transaction Type: <b>{{purchase.transactiontype}}</b></label>
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-4">
+            <label>Transaction Status: <b>{{purchase.transactionstatus}}</b></label>
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-4">
+            <label>Assessed by: <b>{{purchase.username}}</b></label>
+        </div>
+    </div>
+
+</p-panel>
+
+
+<p-table [value]="purchaseitems" styleClass="p-datatable-responsive-demo">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>PRODUCT ID</th>
+            <th>QUANTITY</th>
+            <th>AMOUNT</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-data>
+        <tr>
+            <td><span class="p-column-title">PRODUCT ID</span>{{data.productid}}
+            </td>
+            <td><span class="p-column-title">QUANTITY</span>{{data.quantity}}
+            </td>
+            <td><span class="p-column-title">TOTAL</span>{{data.amount | number: '1.2'}}</td>
+        </tr>
+    </ng-template>
+</p-table>

@@ -1,1 +1,145 @@
-<p>purchase works!</p>
+<p-tabView>
+    <p-tabPanel>
+        <ng-template pTemplate="header">
+            <i class="pi pi-plus-circle"></i>
+            <span [style]="{margin:'0 10px'}">New Purchase</span>
+        </ng-template>
+
+        <div class="p-grid p-fluid">
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <label for="productid">Product ID</label>
+                <div id="productid" class="p-inputgroup">
+                    <input type="text" pInputText placeholder="Search Product by ID" [(ngModel)]="productid">
+                    <button (click)="searchproduct()" type="button" pButton pRipple icon="pi pi-search" [disabled]="productid == null || productid == ''"></button>
+                </div>
+            </div>
+
+            <div class="p-col-12 p-md-6 p-lg-4">
+                <label for="productname">Product</label>
+                <div id="productname">{{product.productname}}</div>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <label for="productname">Available Stock</label>
+                <div id="productname">{{product.stock}}</div>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-2"></div>
+
+            <div class="p-col-12 p-md-6 p-lg-1">
+                <label for="quantity">Quantity</label>
+                <input [disabled]="product == null || product.productid == null" id="quantity" type="text" pInputText [(ngModel)]="product.quantity" pKeyFilter="int" (change)="computetotal()">
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-2">
+                <label for="amount">Price(per Piece)</label>
+                <input [disabled]="product == null || product.productid == null" id="amount" type="text" pInputText [(ngModel)]="product.price" pKeyFilter="money" (change)="computetotal()">
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-2">
+                <label for="total">Total</label>
+                <div id="total">{{product.amount | number :'1.2'}}</div>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-2">
+                <label for="addButton" class="dot">.</label>
+                <button (click)="addtopurchase()" [disabled]="product == null || product.productid == null" id="addButton" pButton pRipple type="button" icon="pi pi-plus-circle" label="Add" class="p-button-raised p-button-info"></button>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-3">
+                <label for="productname">Declared Price</label>
+                <div id="productname">{{product.declaredprice | number :'1.2'}}</div>
+            </div>
+        </div>
+        <!--<p-divider></p-divider>-->
+        <p-table [value]="purchase" styleClass="p-datatable-responsive-demo">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="tx-col">PRODUCT ID</th>
+                    <th>PRODUCT</th>
+                    <th class="amount-col">AMOUNT</th>
+                    <th class="amount-col">QUANTITY</th>
+                    <th class="view-col">REMOVE</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data>
+                <tr>
+                    <td class="tx-col"><span class="p-column-title">PRODUCT ID</span>{{data.productid}}
+                    </td>
+                    <td><span class="p-column-title">PRODUCT</span>{{data.productname}}</td>
+                    <td class="amount-col"><span class="p-column-title">AMOUNT</span>{{data.amount | number :'1.2'}}
+                    </td>
+                    <td class="amount-col"><span class="p-column-title">QUANTITY</span>{{data.quantity}}</td>
+                    <td class="view-col"><span class="p-column-title">REMOVE</span>
+                        <button pButton pRipple icon="pi pi-times" class="p-button-raised p-button-help" (click)="removeproduct(data)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <!--<p-divider></p-divider>-->
+        <div class="p-grid p-fluid">
+            <div class="p-col-12 p-md-6 p-lg-4">
+                <label for="referencetx">Reference (Invoice Number)</label>
+                <input id="referencetx" type="text" pInputText [(ngModel)]="purchasetx.transactionreference">
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-4">
+                <label for="suppliername">Supplier</label>
+                <input id="suppliername" type="text" pInputText [(ngModel)]="purchasetx.name">
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-4">
+                <label for="suppliercontact">Contact</label>
+                <input id="suppliercontact" type="text" pInputText [(ngModel)]="purchasetx.contact">
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-4">
+                <label for="supplieraddress">Address</label>
+                <input id="supplieraddress" type="text" pInputText [(ngModel)]="purchasetx.address">
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-4">
+                <label for="payment">Payment</label>
+                <input id="payment" type="text" (change)="computechange()" pInputText [(ngModel)]="purchasetx.transactionpayment" pKeyFilter="money">
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-4">
+                <label for="total">Total</label>
+                <div id="total">{{purchasetx.transactionvalue | number :'1.2'}}</div>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-8">
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-2">
+                <label for="total">Change</label>
+                <div id="total">{{purchasetx.transactionchange | number :'1.2'}}</div>
+            </div>
+            <div class="p-col-12 p-md-6 p-lg-2">
+                <button (click)="confirmpurchase()" pButton pRipple type="button" icon="pi pi-check-circle" label="Submit" class="p-button-raised p-button-success"></button>
+            </div>
+        </div>
+
+    </p-tabPanel>
+    <p-tabPanel header="Header II">
+        <ng-template pTemplate="header">
+            <i class="pi pi-list"></i>
+            <span [style]="{margin:'0 10px'}">Supply Purchase History</span>
+        </ng-template>
+
+
+        <p-table [value]="records" styleClass="p-datatable-responsive-demo">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="tx-col">REFERENCE ID</th>
+                    <th class="amount-col">AMOUNT</th>
+                    <th class="date-col">DATE</th>
+                    <th class="user-col">SUPPLIER</th>
+                    <th class="view-col">VIEW</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data>
+                <tr>
+                    <td class="tx-col"><span class="p-column-title">REFERENCE ID</span>{{data.transactionreference}}
+                    </td>
+                    <td class="amount-col"><span class="p-column-title">AMOUNT</span>{{data.transactionvalue | number :'1.2'}}
+                    </td>
+                    <td class="date-col"><span class="p-column-title">DATE</span>{{data.transactiondate | date: 'medium'}}
+                    </td>
+                    <td class="user-col"><span class="p-column-title">SUPPLIER</span>{{data.name}}</td>
+                    <td class="view-col"><span class="p-column-title">VIEW</span>
+                        <button (click)="viewpurchase(data)" pButton pRipple icon="pi pi-external-link" class="p-button-raised p-button-help"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+    </p-tabPanel>
+</p-tabView>

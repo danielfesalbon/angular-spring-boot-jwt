@@ -9,12 +9,12 @@
 		<version>2.4.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.vpcommerce.app</groupId>
-	<artifactId>VAPECOMMERCE</artifactId>
+	<groupId>com.rest.app</groupId>
+	<artifactId>REST-BASE</artifactId>
 	<version>1.0.0</version>
 	<packaging>war</packaging>
-	<name>VAPECOMMERCE</name>
-	<description>Website and e-commerce application</description>
+	<name>REST-BASE</name>
+	<description>REST API Base setup for Backend</description>
 
 	<properties>
 		<java.version>1.8</java.version>

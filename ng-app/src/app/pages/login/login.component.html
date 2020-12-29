@@ -7,58 +7,54 @@
 <div class="login-page" *ngIf="toregister">
     <div class="p-grid p-fluid">
         <div class="p-col-12 p-md-6 p-lg-3">
-            <div class="box"></div>
         </div>
         <div class="p-col-12 p-md-6 p-lg-6">
             <div class="register-form">
                 <div class="p-grid">
                     <div class="p-col-12 p-md-6 p-lg-12">
                         <label for="user">Name</label>
-                        <input id="user" type="text" pInputText>
+                        <input id="user" type="text" pInputText [(ngModel)]="user.name">
                     </div>
                 </div>
                 <div class="p-grid">
-                    <div class="p-col-12 p-md-6 p-lg-6">
+                    <div class="p-col-12 p-md-6 p-lg-12">
                         <label for="username">Username</label>
-                        <input id="username" type="text" pInputText>
-                    </div>
-                    <div class="p-col-12 p-md-6 p-lg-6">
-                        <label for="email">Email</label>
-                        <input id="email" type="text" pInputText>
+                        <input id="username" type="text" pInputText [(ngModel)]="user.username">
                     </div>
                 </div>
                 <div class="p-grid">
                     <div class="p-col-12 p-md-6 p-lg-6">
+                        <label>Birthday</label>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-6 p-lg-12">
+                        <p-calendar inputId="basic" [(ngModel)]="user.bday"></p-calendar>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-6 p-lg-12">
                         <label for="password1">Password</label>
-                        <input id="password1" type="text" pInputText>
-                    </div>
-                    <div class="p-col-12 p-md-6 p-lg-6">
-                        <label for="email">Recovery Question</label>
-                        <input id="email" type="text" pInputText>
+                        <input id="password1" type="password" pPassword [(ngModel)]="user.password">
                     </div>
                 </div>
                 <div class="p-grid">
-                    <div class="p-col-12 p-md-6 p-lg-6">
+                    <div class="p-col-12 p-md-6 p-lg-12">
                         <label for="password2">Confirm Password</label>
-                        <input id="password2" type="text" pInputText>
-                    </div>
-                    <div class="p-col-12 p-md-6 p-lg-6">
-                        <label for="email">Recovery Answer</label>
-                        <input id="email" type="text" pInputText>
+                        <input id="password2" type="password" pPassword [(ngModel)]="confpassword">
                     </div>
                 </div>
                 <div class="p-grid">
-                    <div class="p-col-12 p-md-6 p-lg-6">
+                    <div class="p-col-12 p-md-6 p-lg-8">
                     </div>
-                    <div class="p-col-12 p-md-6 p-lg-6">
+                    <div class="p-col-12 p-md-6 p-lg-4">
                         <label for="regButton" class="dot">.</label>
-                        <button id="regButton" pButton pRipple type="button" label="Save new user" class="p-button-raised p-button-info"></button>
+                        <button id="regButton" pButton pRipple type="button" label="Save new user" class="p-button-raised p-button-info" (click)="registernew()"></button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="p-col-12 p-md-6 p-lg-3">
-            <div class="box"></div>
         </div>
     </div>
 </div>
@@ -67,7 +63,6 @@
 <div class="login-page" *ngIf="tosignin">
     <div class="p-grid p-fluid">
         <div class="p-col-12 p-md-6 p-lg-4">
-            <div class="box"></div>
         </div>
         <div class="p-col-12 p-md-6 p-lg-4">
             <div class="box login-form">
@@ -84,7 +79,8 @@
                 </div>
             </div>
             <div class="p-col-12 p-md-6 p-lg-4">
-                <div class="box"></div>
             </div>
         </div>
     </div>
+
+    <p-confirmDialog key="regconf" [baseZIndex]="10000" rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>

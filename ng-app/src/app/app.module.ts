@@ -6,6 +6,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './pages/main/main.component';
+import { UseraccountComponent } from './pages/useraccount/useraccount.component';
+import { ConfigurationComponent } from './pages/configuration/configuration.component';
+import { AudittrailComponent } from './pages/audittrail/audittrail.component';
+import { SalesComponent } from './pages/sales/sales.component';
+import { TransactionComponent } from './pages/transaction/transaction.component';
+import { PurchaseComponent } from './pages/purchase/purchase.component';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { InventoryComponent } from './pages/inventory/inventory.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 
 import { InputTextModule } from 'primeng/inputtext';
@@ -46,18 +55,18 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenubarModule } from 'primeng/menubar';
-import { MenuItem } from 'primeng/api';
 import { TabViewModule } from 'primeng/tabview';
 import { RippleModule } from 'primeng/ripple';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { SalesComponent } from './pages/sales/sales.component';
-import { TransactionComponent } from './pages/transaction/transaction.component';
-import { PurchaseComponent } from './pages/purchase/purchase.component';
-import { SettingsComponent } from './pages/settings/settings.component';
-import { InventoryComponent } from './pages/inventory/inventory.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { MenuModule } from 'primeng/menu';
 import { RatingModule } from 'primeng/rating';
+import { DividerModule } from 'primeng/divider';
+import { authInterceptorProviders } from './service/authinterceptor.service';
+import { TxdetailsComponent } from './pages/txdetails/txdetails.component';
+
+
+
 
 
 
@@ -71,13 +80,18 @@ import { RatingModule } from 'primeng/rating';
     PurchaseComponent,
     SettingsComponent,
     InventoryComponent,
-    DashboardComponent
+    DashboardComponent,
+    UseraccountComponent,
+    ConfigurationComponent,
+    AudittrailComponent,
+    TxdetailsComponent
   ],
   imports: [
     RippleModule,
     TabViewModule,
     KeyFilterModule,
     DataViewModule,
+    MenuModule,
     ChartModule,
     FieldsetModule,
     ListboxModule,
@@ -99,9 +113,10 @@ import { RatingModule } from 'primeng/rating';
     RadioButtonModule,
     MenubarModule,
     ScrollPanelModule,
-    AccordionModule, 
+    AccordionModule,
     RatingModule,
     FocusTrapModule,
+    DividerModule,
     BlockUIModule,
     ToastModule,
     FormsModule,
@@ -121,7 +136,7 @@ import { RatingModule } from 'primeng/rating';
     HttpClientModule,
     BrowserAnimationsModule
   ],
-  providers: [ConfirmationService, MessageService, FileUpload],
+  providers: [ConfirmationService, MessageService, FileUpload, authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

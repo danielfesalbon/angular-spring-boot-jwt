@@ -29,10 +29,9 @@ public class RequestFilterUtil extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		
 		// TODO Auto-generated method stub
-
 		final String requestTokenHeader = request.getHeader("Authorization");
-
 		String username = null;
 		String token = null;
 		// JWT Token is in the form "Bearer token". Remove Bearer word and get only the
@@ -72,13 +71,6 @@ public class RequestFilterUtil extends OncePerRequestFilter {
 				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 			}
 		}
-
-		HttpServletResponse res = (HttpServletResponse) response;
-		res.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-		res.setHeader("Access-Control-Allow-Credentials", "true");
-		res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-		res.setHeader("Access-Control-Max-Age", "3600");
-		res.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
 
 		filterChain.doFilter(request, response);
 	}

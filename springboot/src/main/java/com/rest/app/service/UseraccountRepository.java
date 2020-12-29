@@ -12,7 +12,7 @@ import com.rest.app.table.Useraccount;
  * @author danielf
  *
  */
-public interface UserJPARepository extends JpaRepository<Useraccount, Long> {
+public interface UseraccountRepository extends JpaRepository<Useraccount, Long> {
 
 	@Query("SELECT u FROM Useraccount u WHERE u.username = ?1")
 	Useraccount findByUsername(String username);

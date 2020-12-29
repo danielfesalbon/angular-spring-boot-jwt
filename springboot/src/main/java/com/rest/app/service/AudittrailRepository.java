@@ -11,6 +11,6 @@ import com.rest.app.table.Audittrail;
  * @author danielf
  *
  */
-public interface AuditJPARepository extends JpaRepository<Audittrail, Long> {
+public interface AudittrailRepository extends JpaRepository<Audittrail, Long> {
 
 }

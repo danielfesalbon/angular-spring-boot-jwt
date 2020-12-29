@@ -9,10 +9,12 @@ export class SalesComponent implements OnInit {
 
   constructor() { }
 
-
+  rangeDates: Date[];
   records: any[];
+  salesmodal: boolean;
 
   ngOnInit(): void {
+    this.salesmodal = false;
     this.records = [
       { transactionid: "TX-001", amount: "200.00", txdate: new Date(), user: "User" },
       { transactionid: "TX-002", amount: "200.00", txdate: new Date(), user: "User" },
@@ -22,6 +24,11 @@ export class SalesComponent implements OnInit {
       { transactionid: "TX-006", amount: "200.00", txdate: new Date(), user: "User" },
       { transactionid: "TX-007", amount: "200.00", txdate: new Date(), user: "User" },
     ];
+  }
+
+
+  viewtx() {
+    this.salesmodal = true;
   }
 
 }

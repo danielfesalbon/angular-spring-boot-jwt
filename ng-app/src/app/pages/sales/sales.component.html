@@ -1,3 +1,24 @@
+<div class="p-grid pad-top">
+    <div class="p-col-12 p-md-6 p-lg-3 p-fluid">
+        <p-calendar placeholder="Select date range" [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" inputId="range"></p-calendar>
+    </div>
+    <div class="p-col-12 p-md-6 p-lg-6">
+        <button type="button" pButton pRipple icon="pi pi-file-excel" class="p-button-raised rpt-button p-button-success"></button>
+        <button type="button" pButton pRipple icon="pi pi-file-pdf" class="p-button-raised rpt-button p-button-danger"></button>
+    </div>
+    <div class="p-col-12 p-md-6 p-lg-3 p-fluid">
+        <!--<span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input type="search" pInputText placeholder="Search by Transaction ID">
+        </span>-->
+        <div class="p-inputgroup">
+            <input type="text" pInputText placeholder="Search by Transaction ID">
+            <button type="button" pButton pRipple icon="pi pi-search"></button>
+        </div>
+    </div>
+</div>
+
+
 <p-table [value]="records" styleClass="p-datatable-responsive-demo">
     <ng-template pTemplate="header">
         <tr>
@@ -16,9 +37,20 @@
             <td class="date-col"><span class="p-column-title">DATE</span>{{data.txdate | date: 'medium'}}</td>
             <td class="user-col"><span class="p-column-title">USER</span>{{data.user}}</td>
             <td class="view-col"><span class="p-column-title">VIEW</span>
-                <button pButton pRipple icon="pi pi-list" class="p-button-raised p-button-help"></button>
+                <button pButton pRipple icon="pi pi-external-link" class="p-button-raised p-button-help" (click)="viewtx()"></button>
             </td>
 
         </tr>
     </ng-template>
 </p-table>
+
+
+
+
+<p-dialog header="Transaction Details" [(visible)]="salesmodal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [closable]="false">
+    <p class="p-m-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="salesmodal=false" label="Close" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>

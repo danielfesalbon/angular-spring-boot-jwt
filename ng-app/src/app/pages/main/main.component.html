@@ -1,5 +1,5 @@
 <div class="layout">
-    <ul>
+    <ul class="sticky shadow">
         <li><a routerLink="/main">Dashboard</a></li>
         <li><a routerLink="transaction"> Transaction</a></li>
         <li><a routerLink="purchase">Purchase</a></li>
@@ -14,7 +14,9 @@
 
     </div>
 
-    <router-outlet></router-outlet>
+    <div class="page-route">
+        <router-outlet></router-outlet>
+    </div>
 </div>
 
 
