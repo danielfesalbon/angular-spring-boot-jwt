@@ -38,7 +38,7 @@
             </div>
             <div class="p-col-12 p-md-6 p-lg-2">
                 <label for="addButton" class="dot">.</label>
-                <button (click)="addtopurchase()" [disabled]="product == null || product.productid == null" id="addButton" pButton pRipple type="button" icon="pi pi-plus-circle" label="Add" class="p-button-raised p-button-info"></button>
+                <button (click)="addtopurchase()" [disabled]="product == null || product.productid == null || product.amount == null || product.amount <= 0" id="addButton" pButton pRipple type="button" icon="pi pi-plus-circle" label="Add" class="p-button-raised p-button-info"></button>
             </div>
             <div class="p-col-12 p-md-6 p-lg-3">
                 <label for="productname">Declared Price</label>
@@ -103,7 +103,8 @@
                 <div id="total">{{purchasetx.transactionchange | number :'1.2'}}</div>
             </div>
             <div class="p-col-12 p-md-6 p-lg-2">
-                <button (click)="confirmpurchase()" pButton pRipple type="button" icon="pi pi-check-circle" label="Submit" class="p-button-raised p-button-success"></button>
+                <button (click)="confirmpurchase()" [disabled]="purchase.length < 1 || purchasetx.transactionvalue == undefined || purchasetx.transactionvalue == null || purchasetx.transactionvalue == 0 || purchasetx.transactionvalue > purchasetx.transactionpayment || purchasetx.transactionchange < 0"
+                    pButton pRipple type="button" icon="pi pi-check-circle" label="Submit" class="p-button-raised p-button-success"></button>
             </div>
         </div>
 
@@ -131,13 +132,16 @@
                     </td>
                     <td class="amount-col"><span class="p-column-title">AMOUNT</span>{{data.transactionvalue | number :'1.2'}}
                     </td>
-                    <td class="date-col"><span class="p-column-title">DATE</span>{{data.transactiondate | date: 'medium'}}
+                    <td class="date-col"><span class="p-column-title">DATE</span>{{data.transactiondate | date: 'mediumDate'}}
                     </td>
                     <td class="user-col"><span class="p-column-title">SUPPLIER</span>{{data.name}}</td>
                     <td class="view-col"><span class="p-column-title">VIEW</span>
                         <button (click)="viewpurchase(data)" pButton pRipple icon="pi pi-external-link" class="p-button-raised p-button-help"></button>
                     </td>
                 </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <p-paginator [rows]="row" [totalRecords]="total" [rowsPerPageOptions]="options" (onPageChange)="paginate($event)"></p-paginator>
             </ng-template>
         </p-table>
 

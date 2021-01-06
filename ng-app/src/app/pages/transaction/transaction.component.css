@@ -121,6 +121,17 @@
     }
 }
 
+.list-action {
+    display: flex;
+    flex-direction: row;
+    margin-right: 1em;
+}
+
+.list-action input {
+    height: 2.50rem;
+    width: 2.50rem;
+}
+
 .float-left {
     float: left;
 }
@@ -132,4 +143,25 @@
 label {
     text-align: left;
     float: left;
+}
+
+.status-out-of-stock {
+    background-color: red;
+}
+
+.status-in-stock {
+    background-color: green;
+}
+
+.status-low {
+    background-color: yellow;
+}
+
+.input-quantity {
+    text-align: center;
+    width: 50%;
+}
+
+.add-to-cart {
+    margin-top: 5px;
 }

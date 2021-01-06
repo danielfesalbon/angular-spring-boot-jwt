@@ -33,18 +33,20 @@
         <tr>
             <td class="tx-col"><span class="p-column-title">TRANSACTION ID</span>{{data.transactionid}}
             </td>
-            <td class="amount-col"><span class="p-column-title">AMOUNT</span>{{data.amount}}</td>
-            <td class="date-col"><span class="p-column-title">DATE</span>{{data.txdate | date: 'medium'}}</td>
-            <td class="user-col"><span class="p-column-title">USER</span>{{data.user}}</td>
+            <td class="amount-col"><span class="p-column-title">AMOUNT</span>{{data.transactionvalue | number: '1.2'}}
+            </td>
+            <td class="date-col"><span class="p-column-title">DATE</span>{{data.transactiondate | date: 'short'}}</td>
+            <td class="user-col"><span class="p-column-title">USER</span>{{data.username}}</td>
             <td class="view-col"><span class="p-column-title">VIEW</span>
-                <button pButton pRipple icon="pi pi-external-link" class="p-button-raised p-button-help" (click)="viewtx()"></button>
+                <button pButton pRipple icon="pi pi-external-link" class="p-button-raised p-button-help" (click)="viewtx(data)"></button>
             </td>
 
         </tr>
     </ng-template>
+    <ng-template pTemplate="summary">
+        <p-paginator [rows]="row" [totalRecords]="total" [rowsPerPageOptions]="options" (onPageChange)="paginate($event)"></p-paginator>
+    </ng-template>
 </p-table>
-
-
 
 
 <p-dialog header="Transaction Details" [(visible)]="salesmodal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [closable]="false">

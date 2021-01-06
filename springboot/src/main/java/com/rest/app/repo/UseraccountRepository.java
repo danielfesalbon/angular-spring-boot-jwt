@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.rest.app.service;
+package com.rest.app.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

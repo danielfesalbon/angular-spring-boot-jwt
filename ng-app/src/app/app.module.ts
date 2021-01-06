@@ -15,6 +15,9 @@ import { PurchaseComponent } from './pages/purchase/purchase.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { InventoryComponent } from './pages/inventory/inventory.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { TxdetailsComponent } from './pages/txdetails/txdetails.component';
+
+import { authInterceptorProviders } from './service/authinterceptor.service';
 
 
 import { InputTextModule } from 'primeng/inputtext';
@@ -62,8 +65,9 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { MenuModule } from 'primeng/menu';
 import { RatingModule } from 'primeng/rating';
 import { DividerModule } from 'primeng/divider';
-import { authInterceptorProviders } from './service/authinterceptor.service';
-import { TxdetailsComponent } from './pages/txdetails/txdetails.component';
+import { BadgeModule } from 'primeng/badge';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 
@@ -91,6 +95,7 @@ import { TxdetailsComponent } from './pages/txdetails/txdetails.component';
     TabViewModule,
     KeyFilterModule,
     DataViewModule,
+    InputNumberModule,
     MenuModule,
     ChartModule,
     FieldsetModule,
@@ -105,6 +110,7 @@ import { TxdetailsComponent } from './pages/txdetails/txdetails.component';
     CheckboxModule,
     InputTextareaModule,
     DropdownModule,
+    PaginatorModule,
     MessageModule,
     MessagesModule,
     PanelModule,
@@ -126,6 +132,7 @@ import { TxdetailsComponent } from './pages/txdetails/txdetails.component';
     TooltipModule,
     PanelMenuModule,
     SidebarModule,
+    BadgeModule,
     ButtonModule,
     InputTextModule,
     PasswordModule,

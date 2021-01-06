@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rest.app.service.UseraccountRepository;
+import com.rest.app.repo.UseraccountRepository;
 import com.rest.app.table.Useraccount;
 
 /**
@@ -43,7 +43,8 @@ public class AuthRepository implements UserDetailsService {
 		try {
 			Useraccount user = userService.findByUsername(username);
 			if (user != null) {
-				return new User(user.getUsername(), user.getPassword(), true, true, true, true, new ArrayList<>());
+				return new User(user.getUsername(), user.getPassword(), !user.getDisabled(), true, true, true,
+						new ArrayList<>());
 			} else {
 				throw new UsernameNotFoundException("User not found with username: " + username);
 			}

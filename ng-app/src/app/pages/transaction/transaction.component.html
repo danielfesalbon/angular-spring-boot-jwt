@@ -1,14 +1,5 @@
 <p-dataView #dv [value]="products" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
     <ng-template pTemplate="header">
-        <!--<div class="p-d-inline-flex p-flex-column p-flex-md-row p-jc-md-between">
-            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
-            <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price" (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>
-            <span class="p-input-icon-left p-mb-2 p-mb-md-0">
-                <i class="pi pi-search"></i>
-                <input type="search" pInputText placeholder="Search by Name" (input)="dv.filter($event.target.value)">
-            </span>
-            <button pButton icon="pi pi-shopping-cart"></button>
-        </div>-->
         <div class="p-grid p-fluid">
             <div class="p-col-12 p-md-6 p-lg-2">
                 <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
@@ -23,7 +14,11 @@
                         (input)="dv.filter($event.target.value)">
                 </span>
             </div>
-            <div class="p-col-12 p-md-6 p-lg-2"> <button pButton pRipple icon="pi pi-shopping-cart" label="View Cart" (click)="viewcart()"></button>
+            <div class="p-col-12 p-md-6 p-lg-2">
+                <button pButton pRipple icon="pi pi-shopping-cart" label="View Cart" (click)="viewcart()">
+                    <p-badge [value]="order.length" styleClass="p-mr-2"></p-badge>
+
+                </button>
             </div>
         </div>
     </ng-template>
@@ -32,14 +27,23 @@
             <div class="product-list-item">
                 <!--<img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.name" />-->
                 <div class="product-list-detail">
-                    <div class="product-name">{{product.name}}</div>
-                    <div class="product-description">{{product.description}}</div>
-                    <i class="pi pi-tag product-category-icon"></i><span class="product-category">{{product.category}}</span>
+                    <div class="product-name">{{product.productname}}</div>
+                    <div class="product-description">{{product.declaredprice | number: '1.2'}}</div>
+                    <i class="pi pi-chart-bar product-category-icon"></i><span class="product-category">{{product.stock}}</span>
+                </div>
+
+                <div class="product-list-action">
+                    <div class="list-action">
+                        <div class="p-inputgroup">
+                            <button pButton pRipple icon="pi pi-minus-circle" [disabled]="product.status === 'OUT-OF-STOCK'" (click)="subtractquantity(product)"></button>
+                            <input type="text" pInputText pKeyFilter="int" [disabled]="product.status === 'OUT-OF-STOCK'" placeholder="Quantity" class="input-quantity" [(ngModel)]="product.quantity">
+                            <button pButton pRipple icon="pi pi-plus-circle" [disabled]="product.status === 'OUT-OF-STOCK'" (click)="addquantity(product)"></button>
+                        </div>
+                    </div>
                 </div>
                 <div class="product-list-action">
-                    <span class="product-price">${{product.price}}</span>
-                    <button pButton pRipple icon="pi pi-shopping-cart" label="Add to Cart" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>
-                    <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
+                    <button pButton pRipple icon="pi pi-shopping-cart" label="Add to Cart" (click)="addtocart(product)" [disabled]="product.status === 'OUT-OF-STOCK'"></button>
+                    <span [class]="'p-badge status-' + product.status.toLowerCase()">{{product.status}}</span>
                 </div>
             </div>
         </div>
@@ -49,19 +53,25 @@
             <div class="product-grid-item card">
                 <div class="product-grid-item-top">
                     <div>
-                        <i class="pi pi-tag product-category-icon"></i>
-                        <span class="product-category">{{product.category}}</span>
+                        <i class="pi pi-chart-bar product-category-icon"></i>
+                        <span class="product-category">{{product.stock}}</span>
                     </div>
-                    <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
+                    <span [class]="'p-badge status-' + product.status.toLowerCase()">{{product.status}}</span>
                 </div>
                 <div class="product-grid-item-content">
                     <!--<img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.name" />-->
-                    <div class="product-name">{{product.name}}</div>
-                    <div class="product-description">{{product.description}}</div>
+                    <div class="product-name">{{product.productname}}</div>
+                    <div class="product-description">{{product.declaredprice | number: '1.2'}}</div>
                 </div>
                 <div class="product-grid-item-bottom">
-                    <span class="product-price">${{product.price}}</span>
-                    <button pButton pRipple icon="pi pi-shopping-cart" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>
+                    <!--<span class="product-price">{{product.declaredprice | number: '1.2'}}</span>-->
+                    <div class="p-inputgroup input-quantity">
+                        <button pButton pRipple icon="pi pi-minus-circle" [disabled]="product.status === 'OUT-OF-STOCK'" (click)="subtractquantity(product)"></button>
+                        <input type="text" pInputText pKeyFilter="int" [disabled]="product.status === 'OUT-OF-STOCK'" placeholder="Quantity" class="input-quantity" [(ngModel)]="product.quantity">
+                        <button pButton pRipple icon="pi pi-plus-circle" [disabled]="product.status === 'OUT-OF-STOCK'" (click)="addquantity(product)"></button>
+                    </div>
+
+                    <button pButton pRipple icon="pi pi-shopping-cart" [disabled]="product.status === 'OUT-OF-STOCK'" (click)="addtocart(product)" pTooltip="Add to cart"></button>
                 </div>
             </div>
         </div>
@@ -81,12 +91,14 @@
                     <tr>
                         <th>Product</th>
                         <th>Quantity</th>
+                        <th>Amount</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-data>
                     <tr>
                         <td>{{data.productid}}</td>
                         <td>{{data.quantity}}</td>
+                        <td>{{data.amount | number: '1.2'}}</td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -96,39 +108,42 @@
             <div class="p-grid p-fluid">
                 <div class="p-col-12 p-md-6 p-lg-6">
                     <label for="customername">Customer Name</label>
-                    <input id="customername" type="text" pInputText>
+                    <input id="customername" type="text" pInputText [(ngModel)]="transaction.name">
                 </div>
                 <div class="p-col-12 p-md-6 p-lg-6">
                     <label for="customernumber">Contact No.</label>
-                    <input id="customernumber" type="text" pInputText>
+                    <input id="customernumber" type="text" pInputText [(ngModel)]="transaction.contact">
                 </div>
                 <div class="p-col-12 p-md-6 p-lg-12">
                     <label for="customeraddress">Address</label>
-                    <input id="customeraddress" type="text" pInputText>
+                    <input id="customeraddress" type="text" pInputText [(ngModel)]="transaction.address">
                 </div>
                 <div class="p-col-12 p-md-6 p-lg-6">
                     Total Purchase Amount
                 </div>
                 <div class="p-col-12 p-md-6 p-lg-6">
-                    100.00
+                    {{transaction.transactionvalue | number: '1.2'}}
                 </div>
                 <div class="p-col-12 p-md-6 p-lg-6">
                     Tendered Amount
                 </div>
                 <div class="p-col-12 p-md-6 p-lg-6">
-                    <input id="amount" type="text" pInputText>
+                    <input id="amount" type="text" pInputText [(ngModel)]="transaction.transactionpayment" pKeyFilter="money" (change)="computechange()">
                 </div>
                 <div class="p-col-12 p-md-6 p-lg-6">
                     Change
                 </div>
                 <div class="p-col-12 p-md-6 p-lg-6">
-                    0.00
+                    {{transaction.transactionchange | number: '1.2'}}
                 </div>
             </div>
         </div>
     </div>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple icon="pi pi-times" (click)="cartmodal=false" label="Close" styleClass="p-button-text" class="p-button-secondary"></button>
+        <button (click)="clear()" pButton pRipple icon="pi pi-times" label="Clear" styleClass="p-button-text" class="p-button-raised p-button-warning"></button>
+        <button [disabled]="order.length < 1 || transaction.transactionvalue == undefined || transaction.transactionvalue == null || transaction.transactionvalue == 0 || transaction.transactionvalue > transaction.transactionpayment || transaction.transactionchange < 0"
+            (click)="confirmtx()" pButton pRipple type="button" icon="pi pi-check-circle" label="Submit" class="p-button-raised p-button-success"></button>
+        <button pButton pRipple icon="pi pi-times" (click)="cartmodal=false" label="Close" styleClass="p-button-text" class="p-button-raised p-button-secondary"></button>
     </ng-template>
 </p-dialog>

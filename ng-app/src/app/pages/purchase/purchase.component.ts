@@ -24,19 +24,26 @@ export class PurchaseComponent implements OnInit {
   productid: any;
   product: any;
   purchasetx: any;
+  total: any;
+  row: any;
+  options: any[];
 
   ngOnInit(): void {
-    this.service.getpurchases().subscribe(res => {
-      this.records = res;
-    }, err => {
-      console.log(err);
-    });
     this.purchasetx = {};
     this.purchasetx.transactionvalue = 0;
     this.purchasetx.transactionchange = 0;
     this.productid = '';
     this.product = {};
     this.purchase = [];
+    this.getpages(10);
+  }
+
+  paginate(event) {
+    this.getpurchases(event.rows, event.page);
+    //event.first = Index of the first record
+    //event.rows = Number of rows to display in new page
+    //event.page = Index of the new page
+    //event.pageCount = Total number of pages
   }
 
 
@@ -46,6 +53,17 @@ export class PurchaseComponent implements OnInit {
     }, err => {
       this.product = {};
       this.messageService.add({ key: 'bc', severity: 'error', summary: 'Failed', detail: err.error });
+    });
+  }
+
+  getpages(row) {
+    this.service.getpurchasepage(row).subscribe(res => {
+      this.total = res.count;
+      this.row = res.row;
+      this.options = res.rowoptions;
+      this.getpurchases(this.row, 0);
+    }, err => {
+      console.log(err);
     });
   }
 
@@ -111,6 +129,18 @@ export class PurchaseComponent implements OnInit {
 
   viewpurchase(data) {
     this.router.navigate(["/main/purchase/" + data.transactionid]);
+  }
+
+
+  getpurchases(row, page) {
+    this.service.getpurchases(row, page).subscribe(res => {
+      this.records = res;
+      this.records.forEach(r => {
+        let datetime: Date = new Date(r.transactiondate);
+        datetime.setHours(r.transactiontime.split(':')[0], r.transactiontime.split(':')[1], r.transactiontime.split(':')[2]);
+        r.transactiondate = datetime;
+      });
+    }, err => { });
   }
 
 }

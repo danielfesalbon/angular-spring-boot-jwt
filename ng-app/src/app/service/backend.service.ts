@@ -25,6 +25,10 @@ export class BackendService {
     return this.http.get<any>(this.servicelink + '/product/list');
   }
 
+  getproductfortx() {
+    return this.http.get<any>(this.servicelink + '/product/order/list');
+  }
+
   deleteproduct(id) {
     return this.http.delete<any>(this.servicelink + '/product/delete/' + id)
   }
@@ -49,12 +53,28 @@ export class BackendService {
     return this.http.post<any>(this.servicelink + '/purchase/submit', purchase);
   }
 
-  getpurchases() {
-    return this.http.get<any>(this.servicelink + '/purchase/list');
+  getpurchases(row, page) {
+    return this.http.get<any>(this.servicelink + '/purchase/list?row=' + row + '&page=' + page);
   }
 
   getpurchase(id) {
     return this.http.get<any>(this.servicelink + '/purchase/get/' + id);
+  }
+
+  submittransaction(transaction) {
+    return this.http.post<any>(this.servicelink + '/transaction/submit', transaction);
+  }
+
+  gettransactions(row, page) {
+    return this.http.get<any>(this.servicelink + '/transaction/list?row=' + row + '&page=' + page);
+  }
+
+  gettxpage(row) {
+    return this.http.get<any>(this.servicelink + '/transaction/page/' + row);
+  }
+
+  getpurchasepage(row) {
+    return this.http.get<any>(this.servicelink + '/purchase/page/' + row);
   }
 
 }

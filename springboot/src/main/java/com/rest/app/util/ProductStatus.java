@@ -1,38 +1,32 @@
 /**
  * 
  */
-package com.rest.app.table;
+package com.rest.app.util;
 
 import java.math.BigDecimal;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * @author danielf
  *
  */
-@Entity
-@Table(name = "PRODUCT")
-public class Product {
-
-	@Id
-	@Column(name = "productid")
+public class ProductStatus {
 	private String productid;
-	@Column(name = "productname")
 	private String productname;
-	@Column(name = "declaredprice")
 	private BigDecimal declaredprice;
-	@Column(name = "stock")
 	private Integer stock;
-	@Column(name = "active")
 	private Boolean active;
-	@Column(name = "imgpath")
 	private String imgpath;
-	@Column(name = "lastmax")
 	private Integer lastmax;
+	private String status;
+	private Integer quantity;
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
 
 	public String getProductid() {
 		return productid;
@@ -90,10 +84,12 @@ public class Product {
 		this.lastmax = lastmax;
 	}
 
-	@Override
-	public String toString() {
-		return "Product [productid=" + productid + ", productname=" + productname + ", declaredprice=" + declaredprice
-				+ ", stock=" + stock + ", active=" + active + ", imgpath=" + imgpath + ", lastmax=" + lastmax + "]";
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }
