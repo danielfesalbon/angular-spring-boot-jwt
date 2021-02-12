@@ -6,17 +6,15 @@ import { BackendService } from 'src/app/service/backend.service';
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
-  styleUrls: ['./inventory.component.css']
+  styleUrls: ['./inventory.component.css'],
 })
 export class InventoryComponent implements OnInit {
-
   constructor(
     private service: BackendService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private router: Router
-  ) { }
-
+  ) {}
 
   products: any[];
   productmodal: boolean;
@@ -30,15 +28,14 @@ export class InventoryComponent implements OnInit {
     this.getallproduct();
   }
 
-
   getallproduct() {
-    this.service.getproducts().subscribe(res => {
-      this.products = res;
-    }, err => {
-
-    });
+    this.service.getproducts().subscribe(
+      (res) => {
+        this.products = res;
+      },
+      (err) => {}
+    );
   }
-
 
   newproduct() {
     this.onview = false;
@@ -49,22 +46,35 @@ export class InventoryComponent implements OnInit {
     this.productmodal = true;
   }
 
-
   saveproduct() {
     this.confirmationService.confirm({
       message: 'Save product details.',
       accept: () => {
         this.product.declaredprice = +this.product.declaredprice;
-        this.service.saveproduct(this.product).subscribe(res => {
-          if (res.flag == "success") {
-            this.getallproduct();
-            this.productmodal = false;
-            this.messageService.add({ key: 'bc', severity: 'success', summary: 'Success', detail: res.event });
+        this.product.stock = +this.product.stock;
+        this.service.saveproduct(this.product).subscribe(
+          (res) => {
+            if (res.flag == 'success') {
+              this.getallproduct();
+              this.productmodal = false;
+              this.messageService.add({
+                key: 'bc',
+                severity: 'success',
+                summary: 'Success',
+                detail: res.event,
+              });
+            }
+          },
+          (err) => {
+            this.messageService.add({
+              key: 'bc',
+              severity: 'error',
+              summary: 'Failed',
+              detail: err.message,
+            });
           }
-        }, err => {
-          this.messageService.add({ key: 'bc', severity: 'error', summary: 'Failed', detail: err.message });
-        });
-      }
+        );
+      },
     });
   }
 
@@ -73,23 +83,34 @@ export class InventoryComponent implements OnInit {
       message: 'Delete product.',
       accept: () => {
         this.product.declaredprice = +this.product.declaredprice;
-        this.service.deleteproduct(id).subscribe(res => {
-          if (res.flag == "success") {
-            this.getallproduct();
-            this.messageService.add({ key: 'bc', severity: 'success', summary: 'Success', detail: res.event });
+        this.service.deleteproduct(id).subscribe(
+          (res) => {
+            if (res.flag == 'success') {
+              this.getallproduct();
+              this.messageService.add({
+                key: 'bc',
+                severity: 'success',
+                summary: 'Success',
+                detail: res.event,
+              });
+            }
+          },
+          (err) => {
+            this.messageService.add({
+              key: 'bc',
+              severity: 'error',
+              summary: 'Failed',
+              detail: err.message,
+            });
           }
-        }, err => {
-          this.messageService.add({ key: 'bc', severity: 'error', summary: 'Failed', detail: err.message });
-        });
-      }
+        );
+      },
     });
   }
-
 
   viewproduct(data) {
     this.onview = true;
     this.product = data;
     this.productmodal = true;
   }
-
 }

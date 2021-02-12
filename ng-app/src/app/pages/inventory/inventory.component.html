@@ -1,6 +1,7 @@
 <div class="p-grid pad-top">
     <div class="p-col-12 p-md-6 p-lg-3">
-        <button pButton pRipple icon="pi pi-plus-circle" label="New Product" class="p-button-raised" (click)="newproduct()"></button>
+        <button pButton pRipple icon="pi pi-plus-circle" label="New Product" class="p-button-raised"
+            (click)="newproduct()"></button>
     </div>
     <div class="p-col-12 p-md-6 p-lg-6">
     </div>
@@ -30,8 +31,10 @@
             <td><span class="p-column-title">DELCARED PRICE</span>{{product.declaredprice | number :'1.2'}}</td>
             <td><span class="p-column-title">STOCK</span>{{product.stock}}</td>
             <td class="action-col"><span class="p-column-title">ACTION</span>
-                <button pButton pRipple icon="pi pi-pencil" (click)="viewproduct(product)" class="p-button-raised p-button-help"></button>
-                <button pButton pRipple icon="pi pi-trash" (click)="deleteproduct(product.productid)" class="p-button-raised p-button-danger act-button"></button>
+                <button pButton pRipple icon="pi pi-pencil" (click)="viewproduct(product)"
+                    class="p-button-raised p-button-help"></button>
+                <button pButton pRipple icon="pi pi-trash" (click)="deleteproduct(product.productid)"
+                    class="p-button-raised p-button-danger act-button"></button>
             </td>
 
         </tr>
@@ -41,7 +44,8 @@
 
 
 
-<p-dialog header="Product Details" [(visible)]="productmodal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [closable]="false">
+<p-dialog header="Product Details" [(visible)]="productmodal" [modal]="true" [style]="{width: '50vw'}"
+    [baseZIndex]="10000" [draggable]="false" [resizable]="false" [closable]="false">
 
 
 
@@ -49,7 +53,8 @@
         <div class="p-col-12 p-md-6 p-lg-4">
             <label for="productid">Product ID</label>
             <div *ngIf="onview" id="productid"> {{product.productid}}</div>
-            <input *ngIf="!onview" id="productid" type="text" pKeyFilter="alphanum" pInputText [(ngModel)]="product.productid">
+            <input *ngIf="!onview" id="productid" type="text" pKeyFilter="alphanum" pInputText
+                [(ngModel)]="product.productid">
         </div>
         <div class="p-col-12 p-md-6 p-lg-8">
             <label for="productname">Product Name</label>
@@ -57,16 +62,19 @@
         </div>
         <div class="p-col-12 p-md-6 p-lg-4">
             <label for="declaredprice">Declared Price</label>
-            <input id="declaredprice" type="text" pKeyFilter="money" pInputText placeholder="0.00" [(ngModel)]="product.declaredprice">
+            <input id="declaredprice" type="text" pKeyFilter="money" pInputText placeholder="0.00"
+                [(ngModel)]="product.declaredprice">
         </div>
         <div class="p-col-12 p-md-6 p-lg-4">
             <label for="prodstock">Stock</label>
-            <div id="prodstock"> {{product.stock}}</div>
+            <input id="prodstock" type="text" pKeyFilter="int" pInputText [(ngModel)]="product.stock">
+            <!--<div id="prodstock"> {{product.stock}}</div>-->
         </div>
     </div>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple icon="pi pi-check" (click)="saveproduct()" label="Save" class="p-button-success"></button>
+        <button pButton pRipple icon="pi pi-check" (click)="saveproduct()" label="Save"
+            class="p-button-success"></button>
 
         <p-button icon="pi pi-times" (click)="productmodal=false" label="Close" styleClass="p-button-text"></p-button>
     </ng-template>

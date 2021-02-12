@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,13 +44,29 @@ public class TransactionController {
 
 	@GetMapping("/list")
 	public List<Transactions> getPurchaseTransactions(@RequestParam(required = false, name = "row") Integer row,
-			@RequestParam(required = false, name = "page") Integer page) {
-		return transactionService.getPurchaseTransactions(row, page);
+			@RequestParam(required = false, name = "page") Integer page,
+			@RequestParam(required = false, name = "status") String status,
+			@RequestParam(required = false, name = "from") String from,
+			@RequestParam(required = false, name = "to") String to) {
+		return transactionService.getPurchaseTransactions(row, page, status, from, to);
 	}
 
-	@GetMapping("/page/{row}")
-	public ResponseEntity<PaginateValues> getPageValues(@PathVariable int row) {
-		return transactionService.getPageValues(row);
+	@GetMapping("/page")
+	public ResponseEntity<PaginateValues> getPageValues(@RequestParam(required = false, name = "row") Integer row,
+			@RequestParam(required = false, name = "status") String status,
+			@RequestParam(required = false, name = "from") String from,
+			@RequestParam(required = false, name = "to") String to) {
+		return transactionService.getPageValues(row, status, from, to);
+	}
+
+	@GetMapping("/get/{transactionid}")
+	public ResponseEntity<PurchaseProcess> getTransactionDetails(@PathVariable String transactionid) {
+		return transactionService.getTransactionDetails(transactionid);
+	}
+
+	@PutMapping("/update")
+	public ResponseEntity<Map<String, Object>> updateTransaction(@RequestBody Transactions transaction) {
+		return transactionService.updateTransaction(transaction);
 	}
 
 }

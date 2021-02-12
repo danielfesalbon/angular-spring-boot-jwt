@@ -18,6 +18,8 @@ export class TransactionComponent implements OnInit {
   cartmodal: boolean;
   order: any[];
   transaction: any;
+  statuses: any[];
+  status: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -41,6 +43,14 @@ export class TransactionComponent implements OnInit {
       { label: 'Stock Low to High', value: 'stock' }
     ];
 
+    this.statuses = [
+      { label: 'SAVED', value: 'SAVED' },
+      { label: 'COMPLETED', value: 'COMPLETED' },
+      { label: 'CANCELLED', value: 'CANCELLED' },
+      { label: 'PAID', value: 'PAID' }
+    ];
+
+    this.status = { label: 'COMPLETED', value: 'COMPLETED' };
     this.order = [];
     this.getallproducts();
   }
@@ -137,6 +147,7 @@ export class TransactionComponent implements OnInit {
     let param: any = {};
     this.transaction.username = this.tokenService.getUser();
     param.prodpertrans = this.order;
+    this.transaction.transactionstatus = this.status.value;
     param.purchasetx = this.transaction;
     this.service.submittransaction(param).subscribe(res => {
       if (res.flag == "success") {
@@ -159,6 +170,7 @@ export class TransactionComponent implements OnInit {
     this.transaction.transactionvalue = 0;
     this.transaction.transactionpayment = 0;
     this.transaction.transactionchange = 0;
+    this.status = { label: 'COMPLETED', value: 'COMPLETED' };
   }
 
 }

@@ -49,4 +49,14 @@ public class UserController {
 		return userService.deteleUser(userid);
 	}
 
+	@PostMapping("/validate/reset")
+	public ResponseEntity<Map<String, Object>> validateReset(@RequestBody Useraccount user) {
+		return userService.validateReset(user);
+	}
+
+	@PostMapping("/reset/password")
+	public ResponseEntity<Map<String, Object>> resetPassword(@RequestBody Useraccount user) {
+		return userService.resetPassword(user);
+	}
+
 }

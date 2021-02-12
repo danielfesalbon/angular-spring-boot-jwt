@@ -14,30 +14,34 @@ import { TxdetailsComponent } from './pages/txdetails/txdetails.component';
 import { UseraccountComponent } from './pages/useraccount/useraccount.component';
 
 const routes: Routes = [
-  { path: "login", component: LoginComponent },
-  { path: "", redirectTo: "main", pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: '', redirectTo: 'main', pathMatch: 'full' },
   {
-    path: "main", component: MainComponent, children: [
-      { path: "", component: DashboardComponent },
-      { path: "purchase", component: PurchaseComponent },
-      { path: "purchase/:transactionid", component: TxdetailsComponent },
-      { path: "transaction", component: TransactionComponent },
-      { path: "sales", component: SalesComponent },
+    path: 'main',
+    component: MainComponent,
+    children: [
+      { path: '', component: DashboardComponent },
+      //{ path: "purchase", component: PurchaseComponent },
+      { path: 'purchase/:transactionid', component: TxdetailsComponent },
+      { path: 'transaction', component: TransactionComponent },
+      { path: 'sales', component: SalesComponent },
       {
-        path: "settings", component: SettingsComponent, children: [
-          { path: "user", component: UseraccountComponent },
-          { path: "audittrail", component: AudittrailComponent },
-          { path: "configuration", component: ConfigurationComponent },
-
-        ]
+        path: 'settings',
+        component: SettingsComponent,
+        children: [
+          { path: '', redirectTo: 'configuration', pathMatch: 'full' },
+          { path: 'user', component: UseraccountComponent },
+          { path: 'audittrail', component: AudittrailComponent },
+          { path: 'configuration', component: ConfigurationComponent },
+        ],
       },
-      { path: "product", component: InventoryComponent },
-    ]
+      { path: 'product', component: InventoryComponent },
+    ],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
