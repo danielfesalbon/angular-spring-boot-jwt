@@ -12,6 +12,7 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { TransactionComponent } from './pages/transaction/transaction.component';
 import { TxdetailsComponent } from './pages/txdetails/txdetails.component';
 import { UseraccountComponent } from './pages/useraccount/useraccount.component';
+import { AuthguardService } from './service/authguard.service';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   {
     path: 'main',
     component: MainComponent,
+    canActivate: [AuthguardService],
     children: [
       { path: '', component: DashboardComponent },
       //{ path: "purchase", component: PurchaseComponent },

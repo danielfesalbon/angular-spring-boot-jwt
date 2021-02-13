@@ -7,17 +7,16 @@ import { TokenService } from 'src/app/service/token.service';
 @Component({
   selector: 'app-purchase',
   templateUrl: './purchase.component.html',
-  styleUrls: ['./purchase.component.css']
+  styleUrls: ['./purchase.component.css'],
 })
 export class PurchaseComponent implements OnInit {
-
   constructor(
     private service: BackendService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private router: Router,
     private tokenService: TokenService
-  ) { }
+  ) {}
 
   records: any[];
   purchase: any[];
@@ -46,34 +45,44 @@ export class PurchaseComponent implements OnInit {
     //event.pageCount = Total number of pages
   }
 
-
   searchproduct() {
-    this.service.searchproduct(this.productid).subscribe(res => {
-      this.product = res;
-    }, err => {
-      this.product = {};
-      this.messageService.add({ key: 'bc', severity: 'error', summary: 'Failed', detail: err.error });
-    });
+    this.service.searchproduct(this.productid).subscribe(
+      (res) => {
+        this.product = res;
+      },
+      (err) => {
+        this.tokenService.checkSession(err);
+        this.product = {};
+        this.messageService.add({
+          key: 'bc',
+          severity: 'error',
+          summary: 'Failed',
+          detail: err.error,
+        });
+      }
+    );
   }
 
   getpages(row) {
-    this.service.getpurchasepage(row).subscribe(res => {
-      this.total = res.count;
-      this.row = res.row;
-      this.options = res.rowoptions;
-      this.getpurchases(this.row, 0);
-    }, err => {
-      console.log(err);
-    });
+    this.service.getpurchasepage(row).subscribe(
+      (res) => {
+        this.total = res.count;
+        this.row = res.row;
+        this.options = res.rowoptions;
+        this.getpurchases(this.row, 0);
+      },
+      (err) => {
+        this.tokenService.checkSession(err);
+      }
+    );
   }
-
 
   addtopurchase() {
     this.purchase.push(this.product);
     this.product = {};
     this.productid = '';
     let total = 0;
-    this.purchase.forEach(p => {
+    this.purchase.forEach((p) => {
       total = total + p.amount;
     });
     this.purchasetx.transactionvalue = total;
@@ -86,61 +95,83 @@ export class PurchaseComponent implements OnInit {
   }
 
   removeproduct(data) {
-    this.purchase = this.purchase.filter(res => res != data);
+    this.purchase = this.purchase.filter((res) => res != data);
     let total = 0;
-    this.purchase.forEach(p => {
+    this.purchase.forEach((p) => {
       total = total + p.amount;
     });
     this.purchasetx.transactionvalue = total;
   }
 
   computechange() {
-    if (this.purchasetx.transactionvalue != null && this.purchasetx.transactionpayment != null) {
-      this.purchasetx.transactionchange = (+this.purchasetx.transactionpayment) - (+this.purchasetx.transactionvalue);
+    if (
+      this.purchasetx.transactionvalue != null &&
+      this.purchasetx.transactionpayment != null
+    ) {
+      this.purchasetx.transactionchange =
+        +this.purchasetx.transactionpayment - +this.purchasetx.transactionvalue;
     }
   }
 
-
   confirmpurchase() {
     this.confirmationService.confirm({
-      message: "Save new purchase supply.",
+      message: 'Save new purchase supply.',
       accept: () => {
         this.submitpurchase();
-      }
+      },
     });
   }
-
 
   submitpurchase() {
     let param: any = {};
     this.purchasetx.username = this.tokenService.getUser();
     param.prodpertrans = this.purchase;
     param.purchasetx = this.purchasetx;
-    this.service.submitpurchase(param).subscribe(res => {
-      if (res.flag == "success") {
-        this.ngOnInit();
-        this.messageService.add({ key: 'bc', severity: 'success', summary: 'Success', detail: res.event });
+    this.service.submitpurchase(param).subscribe(
+      (res) => {
+        if (res.flag == 'success') {
+          this.ngOnInit();
+          this.messageService.add({
+            key: 'bc',
+            severity: 'success',
+            summary: 'Success',
+            detail: res.event,
+          });
+        }
+      },
+      (err) => {
+        this.tokenService.checkSession(err);
+        this.messageService.add({
+          key: 'bc',
+          severity: 'error',
+          summary: 'Failed',
+          detail: err.message,
+        });
       }
-    }, err => {
-      this.messageService.add({ key: 'bc', severity: 'error', summary: 'Failed', detail: err.message });
-    });
+    );
   }
-
 
   viewpurchase(data) {
-    this.router.navigate(["/main/purchase/" + data.transactionid]);
+    this.router.navigate(['/main/purchase/' + data.transactionid]);
   }
-
 
   getpurchases(row, page) {
-    this.service.getpurchases(row, page).subscribe(res => {
-      this.records = res;
-      this.records.forEach(r => {
-        let datetime: Date = new Date(r.transactiondate);
-        datetime.setHours(r.transactiontime.split(':')[0], r.transactiontime.split(':')[1], r.transactiontime.split(':')[2]);
-        r.transactiondate = datetime;
-      });
-    }, err => { });
+    this.service.getpurchases(row, page).subscribe(
+      (res) => {
+        this.records = res;
+        this.records.forEach((r) => {
+          let datetime: Date = new Date(r.transactiondate);
+          datetime.setHours(
+            r.transactiontime.split(':')[0],
+            r.transactiontime.split(':')[1],
+            r.transactiontime.split(':')[2]
+          );
+          r.transactiondate = datetime;
+        });
+      },
+      (err) => {
+        this.tokenService.checkSession(err);
+      }
+    );
   }
-
 }

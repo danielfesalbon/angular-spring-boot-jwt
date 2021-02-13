@@ -7,10 +7,9 @@ import { TokenService } from 'src/app/service/token.service';
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
-  styleUrls: ['./transaction.component.css']
+  styleUrls: ['./transaction.component.css'],
 })
 export class TransactionComponent implements OnInit {
-
   products: any[];
   sortOptions: SelectItem[];
   sortOrder: number;
@@ -28,7 +27,7 @@ export class TransactionComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private router: Router,
     private tokenService: TokenService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.transaction = {};
@@ -40,14 +39,14 @@ export class TransactionComponent implements OnInit {
       { label: 'Price High to Low', value: '!declaredprice' },
       { label: 'Price Low to High', value: 'declaredprice' },
       { label: 'Stock High to Low', value: '!stock' },
-      { label: 'Stock Low to High', value: 'stock' }
+      { label: 'Stock Low to High', value: 'stock' },
     ];
 
     this.statuses = [
       { label: 'SAVED', value: 'SAVED' },
       { label: 'COMPLETED', value: 'COMPLETED' },
       { label: 'CANCELLED', value: 'CANCELLED' },
-      { label: 'PAID', value: 'PAID' }
+      { label: 'PAID', value: 'PAID' },
     ];
 
     this.status = { label: 'COMPLETED', value: 'COMPLETED' };
@@ -56,11 +55,14 @@ export class TransactionComponent implements OnInit {
   }
 
   getallproducts() {
-    this.service.getproductfortx().subscribe(res => {
-      this.products = res;
-    }, err => {
-      console.log(err);
-    });
+    this.service.getproductfortx().subscribe(
+      (res) => {
+        this.products = res;
+      },
+      (err) => {
+        this.tokenService.checkSession(err);
+      }
+    );
   }
 
   onSortChange(event) {
@@ -69,8 +71,7 @@ export class TransactionComponent implements OnInit {
     if (value.indexOf('!') === 0) {
       this.sortOrder = -1;
       this.sortField = value.substring(1, value.length);
-    }
-    else {
+    } else {
       this.sortOrder = 1;
       this.sortField = value;
     }
@@ -82,14 +83,14 @@ export class TransactionComponent implements OnInit {
 
   addquantity(data) {
     data.quantity = +data.quantity;
-    if ((data.quantity + 1) <= data.stock) {
+    if (data.quantity + 1 <= data.stock) {
       data.quantity = data.quantity + 1;
     }
   }
 
   subtractquantity(data) {
     data.quantity = +data.quantity;
-    if ((data.quantity - 1) > 0) {
+    if (data.quantity - 1 > 0) {
       data.quantity = data.quantity - 1;
     }
   }
@@ -97,51 +98,76 @@ export class TransactionComponent implements OnInit {
   addtocart(data) {
     let prod: any = {};
     if (this.order.length != 0) {
-      prod = this.order.find(i => { return i.productid == data.productid });
+      prod = this.order.find((i) => {
+        return i.productid == data.productid;
+      });
     } else {
       prod = null;
     }
     if (prod != undefined && prod != null) {
-      let quantity = +this.order.find(i => i.productid == data.productid).quantity;
+      let quantity = +this.order.find((i) => i.productid == data.productid)
+        .quantity;
       quantity = +quantity + +data.quantity;
       if (+quantity <= +data.stock) {
-        this.order.find(i => i.productid == data.productid).quantity = quantity;
-        this.order.find(i => i.productid == data.productid).amount = (+quantity) * (+data.declaredprice);
-        this.messageService.add({ key: 'bc', severity: 'success', summary: 'Item added', detail: data.quantity + " " + data.productname + " was added." });
+        this.order.find(
+          (i) => i.productid == data.productid
+        ).quantity = quantity;
+        this.order.find((i) => i.productid == data.productid).amount =
+          +quantity * +data.declaredprice;
+        this.messageService.add({
+          key: 'bc',
+          severity: 'success',
+          summary: 'Item added',
+          detail: data.quantity + ' ' + data.productname + ' was added.',
+        });
       } else {
-        this.messageService.add({ key: 'bc', severity: 'error', summary: 'Invalid routine', detail: "Stock and quantity doesn't match" });
+        this.messageService.add({
+          key: 'bc',
+          severity: 'error',
+          summary: 'Invalid routine',
+          detail: "Stock and quantity doesn't match",
+        });
         //insert toast invalid routine -> stock : quantity validation
       }
     } else {
       prod = {};
       prod.productid = data.productid;
       prod.quantity = data.quantity;
-      prod.amount = (+data.quantity) * (+data.declaredprice);
+      prod.amount = +data.quantity * +data.declaredprice;
       if (+data.quantity <= +data.stock) {
         this.order.push(prod);
-        this.messageService.add({ key: 'bc', severity: 'success', summary: 'Item added', detail: data.quantity + " " + data.productname + " was added." });
+        this.messageService.add({
+          key: 'bc',
+          severity: 'success',
+          summary: 'Item added',
+          detail: data.quantity + ' ' + data.productname + ' was added.',
+        });
       } else {
-        this.messageService.add({ key: 'bc', severity: 'error', summary: 'Invalid routine', detail: "Stock and quantity doesn't match" });
+        this.messageService.add({
+          key: 'bc',
+          severity: 'error',
+          summary: 'Invalid routine',
+          detail: "Stock and quantity doesn't match",
+        });
         //insert toast invalid routine -> stock : quantity validation
       }
     }
     data.quantity = 1;
     this.transaction.transactionvalue = 0;
-    this.order.forEach(i => {
-      this.transaction.transactionvalue = this.transaction.transactionvalue + +i.amount;
+    this.order.forEach((i) => {
+      this.transaction.transactionvalue =
+        this.transaction.transactionvalue + +i.amount;
     });
   }
-
 
   confirmtx() {
     this.confirmationService.confirm({
-      message: "Submit new transaction.",
+      message: 'Submit new transaction.',
       accept: () => {
         this.submittx();
-      }
+      },
     });
   }
-
 
   submittx() {
     let param: any = {};
@@ -149,19 +175,35 @@ export class TransactionComponent implements OnInit {
     param.prodpertrans = this.order;
     this.transaction.transactionstatus = this.status.value;
     param.purchasetx = this.transaction;
-    this.service.submittransaction(param).subscribe(res => {
-      if (res.flag == "success") {
-        this.ngOnInit();
-        this.messageService.add({ key: 'bc', severity: 'success', summary: 'Success', detail: res.event });
+    this.service.submittransaction(param).subscribe(
+      (res) => {
+        if (res.flag == 'success') {
+          this.service.generatereceipt(res.id);
+          this.ngOnInit();
+          this.messageService.add({
+            key: 'bc',
+            severity: 'success',
+            summary: 'Success',
+            detail: res.event,
+          });
+        }
+      },
+      (err) => {
+        this.tokenService.checkSession(err);
+        this.messageService.add({
+          key: 'bc',
+          severity: 'error',
+          summary: 'Failed',
+          detail: err.message,
+        });
       }
-    }, err => {
-      this.messageService.add({ key: 'bc', severity: 'error', summary: 'Failed', detail: err.message });
-    });
+    );
   }
 
   computechange() {
     this.transaction.transactionpayment = +this.transaction.transactionpayment;
-    this.transaction.transactionchange = (+this.transaction.transactionpayment) - (+this.transaction.transactionvalue);
+    this.transaction.transactionchange =
+      +this.transaction.transactionpayment - +this.transaction.transactionvalue;
   }
 
   clear() {
@@ -172,5 +214,4 @@ export class TransactionComponent implements OnInit {
     this.transaction.transactionchange = 0;
     this.status = { label: 'COMPLETED', value: 'COMPLETED' };
   }
-
 }

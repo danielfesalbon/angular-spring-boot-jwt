@@ -14,6 +14,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.ContentCachingResponseWrapper;
+
+import com.rest.app.util.EventUtil;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
@@ -26,10 +29,14 @@ public class RequestFilterUtil extends OncePerRequestFilter {
 	@Autowired
 	private JWTUtil jwtUtil;
 
+	@Autowired
+	private EventUtil event;
+
+	@SuppressWarnings("static-access")
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		
+
 		// TODO Auto-generated method stub
 		final String requestTokenHeader = request.getHeader("Authorization");
 		String username = null;
@@ -72,7 +79,17 @@ public class RequestFilterUtil extends OncePerRequestFilter {
 			}
 		}
 
-		filterChain.doFilter(request, response);
+		ContentCachingResponseWrapper responseCacheWrapperObject = new ContentCachingResponseWrapper(
+				(HttpServletResponse) response);
+
+		filterChain.doFilter(request, responseCacheWrapperObject);
+
+		byte[] responseArray = responseCacheWrapperObject.getContentAsByteArray();
+		String responseString = new String(responseArray, responseCacheWrapperObject.getCharacterEncoding());
+
+		event.LOG_EVENT(username, event.write(responseString));
+
+		responseCacheWrapperObject.copyBodyToResponse();
 	}
 
 }

@@ -1,102 +1,142 @@
 ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: white;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: white;
 }
 
 li {
-    float: left;
-    background-color: white;
-    padding-bottom: 1px;
-    transition: 0.3s;
+  float: left;
+  background-color: white;
+  padding-bottom: 1px;
+  transition: 0.3s;
 }
 
 li:hover {
-    padding-bottom: 1px;
-    background-color: blue;
+  padding-bottom: 1px;
+  background-color: blue;
 }
 
 li button {
-    margin-top: 1em;
+  margin-top: 1em;
 }
 
 li.btn:hover {
-    background-color: white;
+  background-color: white;
 }
 
 .spacer {
-    color: white;
-    max-width: 100%;
+  color: white;
+  max-width: 100%;
 }
 
 .a-spacer {
-    color: white;
+  color: white;
 }
 
 li a {
-    display: block;
-    color: black;
-    text-align: center;
-    padding: 21px 20px;
-    text-decoration: none;
-    background-color: white;
-    cursor: pointer;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 21px 20px;
+  text-decoration: none;
+  background-color: white;
+  cursor: pointer;
 }
 
 li button {
-    display: block;
+  display: block;
 }
 
 li a.a-spacer {
-    color: white;
-    cursor: auto;
-    -webkit-touch-callout: none;
-    /* iOS Safari */
-    -webkit-user-select: none;
-    /* Safari */
-    -khtml-user-select: none;
-    /* Konqueror HTML */
-    -moz-user-select: none;
-    /* Old versions of Firefox */
-    -ms-user-select: none;
-    /* Internet Explorer/Edge */
-    user-select: none;
-    /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+  color: white;
+  cursor: auto;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
 li a:hover:not(.active) {
-    background-color: white;
+  background-color: white;
 }
 
 .active {
-    background-color: #4CAF50;
+  background-color: #4caf50;
 }
 
 .sticky {
-    position: fixed;
-    top: 0;
-    width: 80%;
-    z-index: 9999;
+  position: fixed;
+  top: 0;
+  width: 80%;
+  z-index: 9999;
 }
 
 .header {
-    background-color: whitesmoke;
-    width: 100%;
-    height: 120px;
+  background-color: whitesmoke;
+  width: 100%;
+  height: 120px;
 }
 
 .layout {
-    margin: 0 10%;
+  margin: 0 10%;
 }
 
 .page-route {
-    background-color: white;
-    padding: 0.5em 0.5em;
+  background-color: white;
+  padding: 0.5em 0.5em;
 }
 
 .shadow {
-    box-shadow: 0 8px 4px -4px rgba(0, 0, 0, .2);
-    border-radius: 0px 0px 0.3em 0.3em;
+  box-shadow: 0 8px 4px -4px rgba(0, 0, 0, 0.2);
+  border-radius: 0px 0px 0.3em 0.3em;
+}
+
+.footer {
+  width: 100%;
+  background-color: black;
+  color: white;
+}
+
+.box,
+.sample-layout > div {
+  text-align: center;
+  background-color: black;
+  color: white;
+}
+
+.box-stretched {
+  height: 100%;
+}
+
+.vertical-container {
+  margin: 0;
+  height: 100%;
+  background-color: black;
+  color: white;
+  border-radius: 0px;
+  padding-top: 40px;
+  font-size: 12px;
+}
+
+.lbl-footer {
+  margin: auto;
+  text-align: center;
+  font-size: 12px;
+  padding: 0;
+}
+
+.lbl-footer-2 {
+  margin: auto;
+  text-align: center;
+  font-size: 12px;
 }

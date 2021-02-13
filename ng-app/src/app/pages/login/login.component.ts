@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
       .userlogin(this.credentials.username, this.credentials.password)
       .subscribe(
         (res) => {
-          if (res.flag == 'Accepted') {
+          if (res.flag == 'Accepted' || res.flag == 'success') {
             this.tokenService.storeToken(res.token);
             this.tokenService.storeUser(res.username);
             this.router.navigate(['/main']);

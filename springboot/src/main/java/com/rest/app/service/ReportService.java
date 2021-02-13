@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
  *
  */
 public interface ReportService {
-	
+
 	ResponseEntity<Resource> generateReport(String status, String from, String to, String user);
+
+	ResponseEntity<Resource> generateReceipt(String txid);
 
 }

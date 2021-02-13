@@ -24,8 +24,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
+import com.rest.app.repo.PurchaseRepository;
 import com.rest.app.repo.TransactionsRepository;
 import com.rest.app.repo.UseraccountRepository;
+import com.rest.app.table.Productpertransaction;
 import com.rest.app.table.Transactions;
 
 import net.sf.jasperreports.engine.JRException;
@@ -43,15 +45,22 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @Component
 public class ReportUtil {
 
-	@Value("${business.tin}")
-	private String TIN;
+	@Value("${business.facebook}")
+	private String FACEBOOK;
 	@Value("${business.contact}")
 	private String CONTACT;
 	@Value("${business.address}")
 	private String ADDRESS;
+	@Value("${business.shoppee}")
+	private String SHOPPEE;
+	@Value("${jasper.path}")
+	private String jasperpath;
 
 	@Autowired
 	private TransactionsRepository TransactionRepository;
+
+	@Autowired
+	private PurchaseRepository PurchaseRepository;
 
 	@Autowired
 	private TransactionUtil txutil = new TransactionUtil();
@@ -63,7 +72,7 @@ public class ReportUtil {
 			throws FileNotFoundException, ParseException {
 		try {
 			Date start = new Date(), end = new Date();
-			InputStream reportStream = new FileInputStream(new File("C:\\Users\\danielf\\Desktop\\salesreport.jrxml"));
+			InputStream reportStream = new FileInputStream(new File(jasperpath + "\\salesreport.jrxml"));
 			JasperReport report = JasperCompileManager.compileReport(reportStream);
 			Transactions tx = new Transactions();
 			tx.setTransactiontype("SALE");
@@ -113,7 +122,7 @@ public class ReportUtil {
 			parameters.put("to", !to.equals("null") ? to : "");
 			parameters.put("totalcount", count);
 			JasperPrint print = JasperFillManager.fillReport(report, parameters, source);
-			String filePath = "C:\\Users\\danielf\\Desktop\\";
+			String filePath = jasperpath + "\\";
 			JasperExportManager.exportReportToPdfFile(print, filePath + "SALESREPORT.pdf");
 			return new File(filePath + "SALESREPORT.pdf");
 		} catch (JRException e) {
@@ -134,6 +143,45 @@ public class ReportUtil {
 		cal.add(Calendar.MILLISECOND, (int) time.getTime());
 		Date d = cal.getTime();
 		return d;
+	}
+
+	public File generateReceipt(String txid) throws FileNotFoundException, ParseException {
+		try {
+			InputStream reportStream = new FileInputStream(new File(jasperpath + "\\salesreceipt.jrxml"));
+			JasperReport report = JasperCompileManager.compileReport(reportStream);
+			Transactions tx = TransactionRepository.findById(txid).get();
+			Productpertransaction pr = new Productpertransaction();
+			pr.setTransactionid(txid);
+			Example<Productpertransaction> example = Example.of(pr);
+			List<Productpertransaction> list = PurchaseRepository.findAll(example);
+			BigDecimal total = new BigDecimal(0);
+			for (Productpertransaction l : list) {
+				total = total.add(l.getAmount());
+			}
+			JRBeanCollectionDataSource source = new JRBeanCollectionDataSource(list);
+			Map<String, Object> parameters = new HashMap<>();
+
+			parameters.put("addresscontact", "Location: " + ADDRESS + ", Contact: " + CONTACT);
+			parameters.put("facebookshoppee", "Facebook: " + FACEBOOK + ", Shoppee: " + SHOPPEE);
+
+			parameters.put("txid", txid);
+			parameters.put("totalpay", tx.getTransactionpayment());
+			parameters.put("change", tx.getTransactionchange());
+			parameters.put("totalamount", total);
+			parameters.put("customername", tx.getUsername());
+			parameters.put("customercontact", tx.getContact());
+			parameters.put("customeraddress", tx.getAddress());
+			parameters.put("dategenerated", new Date().toString());
+			JasperPrint print = JasperFillManager.fillReport(report, parameters, source);
+			String filePath = jasperpath + "\\";
+			JasperExportManager.exportReportToPdfFile(print, filePath + txid + ".pdf");
+			return new File(filePath + txid + ".pdf");
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 }

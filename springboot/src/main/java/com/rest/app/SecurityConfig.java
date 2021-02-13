@@ -61,14 +61,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// exposed to public
 		// http.authorizeRequests().anyRequest().permitAll().and().csrf().disable();
 
-		http.cors().and().csrf().disable().authorizeRequests()
-		.antMatchers("/authenticate/user").permitAll()
-		.antMatchers("/user/reset/password").permitAll()
-		.antMatchers("/user/validate/reset").permitAll()
-		.antMatchers("/file/generate").permitAll()
-		.antMatchers("/user/save").permitAll()
-		.anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(authEntrypoint).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.cors().and().csrf().disable().authorizeRequests().antMatchers("/authenticate/user").permitAll()
+				.antMatchers("/user/reset/password").permitAll().antMatchers("/user/validate/reset").permitAll()
+				.antMatchers("/file/receipt").permitAll().antMatchers("/file/generate").permitAll()
+				.antMatchers("/user/save").permitAll().anyRequest().authenticated().and().exceptionHandling()
+				.authenticationEntryPoint(authEntrypoint).and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		// -------------------------------------------
 

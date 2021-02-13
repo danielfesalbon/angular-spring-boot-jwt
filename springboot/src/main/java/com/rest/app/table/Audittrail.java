@@ -22,13 +22,13 @@ import javax.persistence.Table;
 public class Audittrail {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "reference")
 	private String reference;
-	@Column(name = "user")
-	private String user;
+	@Column(name = "username")
+	private String username;
 	@Column(name = "eventdesc")
 	private String eventdesc;
 	@Column(name = "eventdate")
@@ -52,12 +52,12 @@ public class Audittrail {
 		this.reference = reference;
 	}
 
-	public String getUser() {
-		return user;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getEventdesc() {

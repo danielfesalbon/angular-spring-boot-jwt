@@ -3,6 +3,8 @@
  */
 package com.rest.app.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rest.app.config.SecurityService;
 import com.rest.app.util.LoginRequest;
-import com.rest.app.util.LoginResponse;
 
 /**
  * @author danielf
@@ -28,7 +29,7 @@ public class AuthenticationController {
 	private SecurityService securityService;
 
 	@PostMapping("/user")
-	public ResponseEntity<LoginResponse> authenticateUser(@RequestBody LoginRequest requestcredentials) {
+	public ResponseEntity<Map<String, Object>> authenticateUser(@RequestBody LoginRequest requestcredentials) {
 		return securityService.authenticateUser(requestcredentials);
 	}
 

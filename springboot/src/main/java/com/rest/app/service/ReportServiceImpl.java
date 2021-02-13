@@ -46,4 +46,23 @@ public class ReportServiceImpl implements ReportService {
 		return null;
 	}
 
+	@Override
+	public ResponseEntity<Resource> generateReceipt(String txid) {
+		try {
+			File file = reportUtil.generateReceipt(txid);
+			InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+			HttpHeaders header = new HttpHeaders();
+			header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
+			header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+			header.add("Pragma", "no-cache");
+			header.add("Expires", "0");
+			return ResponseEntity.ok().headers(header).contentLength(file.length())
+					.contentType(MediaType.APPLICATION_OCTET_STREAM).body(resource);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return null;
+	}
+
 }

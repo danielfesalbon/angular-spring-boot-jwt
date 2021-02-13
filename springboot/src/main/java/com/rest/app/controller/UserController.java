@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rest.app.service.UserService;
+import com.rest.app.table.Audittrail;
 import com.rest.app.table.Useraccount;
+import com.rest.app.util.PaginateValues;
 
 /**
  * @author danielf
@@ -57,6 +60,22 @@ public class UserController {
 	@PostMapping("/reset/password")
 	public ResponseEntity<Map<String, Object>> resetPassword(@RequestBody Useraccount user) {
 		return userService.resetPassword(user);
+	}
+
+	@GetMapping("/activity")
+	public List<Audittrail> getActivity(@RequestParam(required = false, name = "row") Integer row,
+			@RequestParam(required = false, name = "page") Integer page) {
+		return userService.getActivity(row, page);
+	}
+
+	@GetMapping("/activity/page")
+	public ResponseEntity<PaginateValues> getPageValues(@RequestParam(required = false, name = "row") Integer row) {
+		return userService.getPageValues(row);
+	}
+	
+	@PostMapping("/logout/{user}")
+	public ResponseEntity<Map<String, Object>> signOut(@PathVariable String user) {
+		return userService.signOut(user);
 	}
 
 }

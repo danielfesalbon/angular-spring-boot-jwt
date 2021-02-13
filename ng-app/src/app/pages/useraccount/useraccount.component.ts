@@ -2,20 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { BackendService } from 'src/app/service/backend.service';
+import { TokenService } from 'src/app/service/token.service';
 
 @Component({
   selector: 'app-useraccount',
   templateUrl: './useraccount.component.html',
-  styleUrls: ['./useraccount.component.css']
+  styleUrls: ['./useraccount.component.css'],
 })
 export class UseraccountComponent implements OnInit {
-
   constructor(
     private service: BackendService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private tokenService: TokenService
+  ) {}
 
   users: any[];
   usermodal: boolean;
@@ -27,23 +28,24 @@ export class UseraccountComponent implements OnInit {
     this.getusers();
   }
 
-
-
   viewuser(data) {
     this.user = data;
-    data.bday != null && data.bday != undefined ? this.user.bday = new Date(data.bday) : this.user.bday = null;
+    data.bday != null && data.bday != undefined
+      ? (this.user.bday = new Date(data.bday))
+      : (this.user.bday = null);
     this.usermodal = true;
   }
 
-
   getusers() {
-    this.service.getusers().subscribe(res => {
-      this.users = res;
-    }, err => {
-      console.log(err);
-    });
+    this.service.getusers().subscribe(
+      (res) => {
+        this.users = res;
+      },
+      (err) => {
+        this.tokenService.checkSession(err);
+      }
+    );
   }
-
 
   getstatus(status) {
     if (status) {
@@ -58,19 +60,32 @@ export class UseraccountComponent implements OnInit {
       message: 'Save user details.',
       accept: () => {
         console.log(this.user);
-        this.service.saveuser(this.user).subscribe(res => {
-          if (res.flag == "success") {
-            this.getusers();
-            this.usermodal = false;
-            this.messageService.add({ key: 'bc', severity: 'success', summary: 'Success', detail: res.event });
+        this.service.saveuser(this.user).subscribe(
+          (res) => {
+            if (res.flag == 'success') {
+              this.getusers();
+              this.usermodal = false;
+              this.messageService.add({
+                key: 'bc',
+                severity: 'success',
+                summary: 'Success',
+                detail: res.event,
+              });
+            }
+          },
+          (err) => {
+            this.tokenService.checkSession(err);
+            this.messageService.add({
+              key: 'bc',
+              severity: 'error',
+              summary: 'Failed',
+              detail: err.message,
+            });
           }
-        }, err => {
-          this.messageService.add({ key: 'bc', severity: 'error', summary: 'Failed', detail: err.message });
-        });
-      }
+        );
+      },
     });
   }
-
 
   disableaccount(user) {
     let m = '';
@@ -87,37 +102,59 @@ export class UseraccountComponent implements OnInit {
         } else {
           user.disabled = true;
         }
-        this.service.saveuser(user).subscribe(res => {
-          if (res.flag == "success") {
-            this.getusers();
-            this.messageService.add({ key: 'bc', severity: 'success', summary: 'Success', detail: res.event });
+        this.service.saveuser(user).subscribe(
+          (res) => {
+            if (res.flag == 'success') {
+              this.getusers();
+              this.messageService.add({
+                key: 'bc',
+                severity: 'success',
+                summary: 'Success',
+                detail: res.event,
+              });
+            }
+          },
+          (err) => {
+            this.tokenService.checkSession(err);
+            this.messageService.add({
+              key: 'bc',
+              severity: 'error',
+              summary: 'Failed',
+              detail: err.message,
+            });
           }
-        }, err => {
-          this.messageService.add({ key: 'bc', severity: 'error', summary: 'Failed', detail: err.message });
-        });
-      }
+        );
+      },
     });
   }
-
 
   deleteuser(user) {
     this.confirmationService.confirm({
-      message: "Delete user",
+      message: 'Delete user',
       accept: () => {
-        this.service.deleteuser(user.userid).subscribe(res => {
-          if (res.flag == "success") {
-            this.getusers();
-            this.messageService.add({ key: 'bc', severity: 'success', summary: 'Success', detail: res.event });
+        this.service.deleteuser(user.userid).subscribe(
+          (res) => {
+            if (res.flag == 'success') {
+              this.getusers();
+              this.messageService.add({
+                key: 'bc',
+                severity: 'success',
+                summary: 'Success',
+                detail: res.event,
+              });
+            }
+          },
+          (err) => {
+            this.tokenService.checkSession(err);
+            this.messageService.add({
+              key: 'bc',
+              severity: 'error',
+              summary: 'Failed',
+              detail: err.message,
+            });
           }
-        }, err => {
-          this.messageService.add({ key: 'bc', severity: 'error', summary: 'Failed', detail: err.message });
-        });
-      }
+        );
+      },
     });
   }
-
-
-
-
-
 }

@@ -62,6 +62,7 @@ public class TransactionServiceImpl implements TransactionService {
 			transaction.getPurchasetx().setTransactiontime(new Time(new Date().getTime()));
 			// transaction.getPurchasetx().setTransactionstatus("COMPLETED");
 			transaction.getPurchasetx().setTransactiontype("SALE");
+			TransactionRepository.save(transaction.getPurchasetx());
 			for (Productpertransaction p : transaction.getProdpertrans()) {
 				Product prod = ProductRepository.findById(p.getProductid()).get();
 				if (prod != null) {
@@ -71,7 +72,7 @@ public class TransactionServiceImpl implements TransactionService {
 					PurchaseRepository.save(p);
 				}
 			}
-			TransactionRepository.save(transaction.getPurchasetx());
+			res.put("id", transaction.getPurchasetx().getTransactionid());
 			res.put("event", "New Transaction " + transaction.getPurchasetx().getTransactionid() + " created.");
 			res.put("flag", "success");
 

@@ -35,5 +35,12 @@ public class ReportController {
 			@RequestParam(required = false, name = "user") String user) {
 		return reportService.generateReport(status, from, to, user);
 	}
+	
+	@GetMapping("/receipt")
+	public ResponseEntity<Resource> generateReceipt(@RequestParam(required = false, name = "txid") String txid) {
+		return reportService.generateReceipt(txid);
+	}
+	
+	
 
 }

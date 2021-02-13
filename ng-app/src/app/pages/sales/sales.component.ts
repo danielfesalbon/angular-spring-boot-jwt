@@ -76,7 +76,7 @@ export class SalesComponent implements OnInit {
           );
         },
         (err) => {
-          console.log(err);
+          this.tokenService.checkSession(err);
         }
       );
   }
@@ -99,7 +99,9 @@ export class SalesComponent implements OnInit {
           r.transactiondate = datetime;
         });
       },
-      (err) => {}
+      (err) => {
+        this.tokenService.checkSession(err);
+      }
     );
   }
 
@@ -119,20 +121,9 @@ export class SalesComponent implements OnInit {
         ? this.rangeDates[1].toLocaleDateString()
         : null
     );
-    //event.first = Index of the first record
-    //event.rows = Number of rows to display in new page
-    //event.page = Index of the new page
-    //event.pageCount = Total number of pages
   }
 
   changestatus() {
-    /*this.gettransactions(
-      this.row,
-      this.page,
-      this.status.value,
-      this.rangeDates[0].toLocaleDateString(),
-      this.rangeDates[1].toLocaleDateString()
-    );*/
     this.getpages(this.row, this.page);
   }
 
@@ -151,13 +142,6 @@ export class SalesComponent implements OnInit {
   }
 
   selectdate() {
-    /*this.gettransactions(
-      this.row,
-      this.page,
-      this.status.value,
-      this.rangeDates[0].toLocaleDateString(),
-      this.rangeDates[1].toLocaleDateString()
-    );*/
     this.getpages(10, 0);
   }
 }

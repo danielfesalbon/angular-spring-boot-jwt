@@ -25,9 +25,14 @@ export class ConfigurationComponent implements OnInit {
   }
 
   getsettings() {
-    this.service.getsettings().subscribe((res) => {
-      this.prop = res;
-      console.log(res);
-    });
+    this.prop = {};
+    this.service.getsettings().subscribe(
+      (res) => {
+        this.prop = res;
+      },
+      (err) => {
+        this.tokenService.checkSession(err);
+      }
+    );
   }
 }

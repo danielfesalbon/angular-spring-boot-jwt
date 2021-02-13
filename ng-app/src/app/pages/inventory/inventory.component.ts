@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { BackendService } from 'src/app/service/backend.service';
+import { TokenService } from 'src/app/service/token.service';
 
 @Component({
   selector: 'app-inventory',
@@ -13,7 +14,8 @@ export class InventoryComponent implements OnInit {
     private service: BackendService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private router: Router
+    private router: Router,
+    private tokenService: TokenService
   ) {}
 
   products: any[];
@@ -33,7 +35,9 @@ export class InventoryComponent implements OnInit {
       (res) => {
         this.products = res;
       },
-      (err) => {}
+      (err) => {
+        this.tokenService.checkSession(err);
+      }
     );
   }
 
@@ -66,6 +70,7 @@ export class InventoryComponent implements OnInit {
             }
           },
           (err) => {
+            this.tokenService.checkSession(err);
             this.messageService.add({
               key: 'bc',
               severity: 'error',
@@ -96,6 +101,7 @@ export class InventoryComponent implements OnInit {
             }
           },
           (err) => {
+            this.tokenService.checkSession(err);
             this.messageService.add({
               key: 'bc',
               severity: 'error',

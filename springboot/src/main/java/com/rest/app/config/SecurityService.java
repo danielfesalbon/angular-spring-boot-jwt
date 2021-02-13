@@ -3,6 +3,9 @@
  */
 package com.rest.app.config;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +19,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.rest.app.util.LoginRequest;
-import com.rest.app.util.LoginResponse;
-
 /**
  * @author danielf
  *
@@ -40,14 +41,18 @@ public class SecurityService {
 	@Autowired
 	private HttpServletRequest request;
 
-	public ResponseEntity<LoginResponse> authenticateUser(LoginRequest requestcredentials) {
-		try {
+	public ResponseEntity<Map<String, Object>> authenticateUser(LoginRequest requestcredentials) {
+		Map<String, Object> response = new HashMap<String, Object>();
 
+		try {
 			String ip = getClientIP();
 
 			if (attemptService.isBlocked(requestcredentials.getUsername()) || attemptService.isBlocked(ip)) {
-				return new ResponseEntity<>(new LoginResponse(requestcredentials.getUsername(), "",
-						"Temporarily Locked", HttpStatus.LOCKED.getReasonPhrase()), HttpStatus.LOCKED);
+				response.put("username", requestcredentials.getUsername());
+				response.put("token", "");
+				response.put("message", "Temporarily Locked");
+				response.put("flag", HttpStatus.LOCKED.getReasonPhrase());
+				return new ResponseEntity<>(response, HttpStatus.LOCKED);
 			}
 
 			String flag = authenticate(requestcredentials.getUsername(), requestcredentials.getPassword());
@@ -55,8 +60,13 @@ public class SecurityService {
 
 			if (flag != null && flag.equals("Accepted") && res != null) {
 				final String token = jwtUtil.generateToken(res);
-				LoginResponse response = new LoginResponse(res.getUsername(), token, "Login Success",
-						HttpStatus.ACCEPTED.getReasonPhrase());
+				response.put("username", res.getUsername());
+				response.put("token", token);
+				response.put("message", "Login Success");
+				response.put("event", "System logged in");
+				response.put("flag", "success");
+//				LoginResponse response = new LoginResponse(res.getUsername(), token, "Login Success",
+//						HttpStatus.ACCEPTED.getReasonPhrase());
 				return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
 			}
 
@@ -64,8 +74,11 @@ public class SecurityService {
 			e.printStackTrace();
 			// TODO: handle exception
 		}
-		return new ResponseEntity<>(new LoginResponse(requestcredentials.getUsername(), "", "Unauthorized",
-				HttpStatus.UNAUTHORIZED.getReasonPhrase()), HttpStatus.UNAUTHORIZED);
+		response.put("username", requestcredentials.getUsername());
+		response.put("token", "");
+		response.put("message", "Unauthorized");
+		response.put("flag", HttpStatus.UNAUTHORIZED.getReasonPhrase());
+		return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 	}
 
 	private String authenticate(String username, String password) throws Exception {

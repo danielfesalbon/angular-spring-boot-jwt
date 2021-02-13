@@ -8,7 +8,9 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
+import com.rest.app.table.Audittrail;
 import com.rest.app.table.Useraccount;
+import com.rest.app.util.PaginateValues;
 
 /**
  * @author danielf
@@ -26,5 +28,11 @@ public interface UserService {
 	ResponseEntity<Map<String, Object>> validateReset(Useraccount user);
 
 	ResponseEntity<Map<String, Object>> resetPassword(Useraccount user);
+
+	List<Audittrail> getActivity(Integer row, Integer page);
+
+	ResponseEntity<PaginateValues> getPageValues(Integer row);
+
+	ResponseEntity<Map<String, Object>> signOut(String user);
 
 }

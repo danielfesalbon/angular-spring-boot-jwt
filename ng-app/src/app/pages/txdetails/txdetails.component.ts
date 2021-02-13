@@ -54,6 +54,7 @@ export class TxdetailsComponent implements OnInit {
         );
       },
       (err) => {
+        this.tokenService.checkSession(err);
         this.messageService.add({
           key: 'bc',
           severity: 'error',
@@ -86,6 +87,7 @@ export class TxdetailsComponent implements OnInit {
         }
       },
       (err) => {
+        this.tokenService.checkSession(err);
         this.messageService.add({
           key: 'bc',
           severity: 'error',

@@ -18,6 +18,10 @@ export class BackendService {
     });
   }
 
+  userlogout(user) {
+    return this.http.post<any>(this.servicelink + '/user/logout/' + user, {});
+  }
+
   saveproduct(product) {
     return this.http.post<any>(this.servicelink + '/product/save', product);
   }
@@ -131,6 +135,10 @@ export class BackendService {
     );
   }
 
+  generatereceipt(txid) {
+    window.open(this.servicelink + '/file/receipt?txid=' + txid);
+  }
+
   validateresetpassword(user) {
     return this.http.post<any>(this.servicelink + '/user/validate/reset', user);
   }
@@ -141,5 +149,17 @@ export class BackendService {
 
   changepassword(user) {
     return this.http.post<any>(this.servicelink + '/user/changepassword', user);
+  }
+
+  getauditpage(row) {
+    return this.http.get<any>(
+      this.servicelink + '/user/activity/page?row=' + row
+    );
+  }
+
+  getactivity(row, page) {
+    return this.http.get<any>(
+      this.servicelink + '/user/activity?row=' + row + '&page=' + page
+    );
   }
 }
