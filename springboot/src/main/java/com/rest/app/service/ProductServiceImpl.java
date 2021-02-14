@@ -3,7 +3,14 @@
  */
 package com.rest.app.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +22,9 @@ import org.springframework.stereotype.Component;
 
 import com.rest.app.repo.ProductRepository;
 import com.rest.app.table.Product;
+import com.rest.app.util.ImageBody;
 import com.rest.app.util.ProductStatus;
+import com.rest.app.util.SettingsProperties;
 
 /**
  * @author danielf
@@ -27,10 +36,18 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductRepository ProductRepository;
 
+	@Autowired
+	private SettingsProperties properties;
+
 	public List<Product> getProducts() {
 		try {
 			List<Product> list = new ArrayList<Product>();
 			list = ProductRepository.findAll();
+			for (Product l : list) {
+				if (l.getImgpath() != null && !l.getImgpath().isEmpty()) {
+					l.setImgpath(encoder(properties.getImgpath() + "\\" + l.getImgpath()));
+				}
+			}
 			return list;
 
 		} catch (Exception e) {
@@ -109,6 +126,9 @@ public class ProductServiceImpl implements ProductService {
 				n.setQuantity(1);
 				int low = (int) (n.getLastmax() * 0.1);
 				Integer stock = n.getStock();
+				if (n.getImgpath() != null && !n.getImgpath().isEmpty()) {
+					n.setImgpath(encoder(properties.getImgpath() + "\\" + n.getImgpath()));
+				}
 				n.setStatus(stock == 0 ? "OUT-OF-STOCK" : n.getStock() <= low ? "LOW" : "IN-STOCK");
 				list.add(n);
 			}
@@ -119,6 +139,48 @@ public class ProductServiceImpl implements ProductService {
 			// TODO: handle exception
 		}
 		return new ArrayList<ProductStatus>();
+	}
+
+	@Override
+	public ResponseEntity<Map<String, Object>> saveImage(ImageBody image) {
+		Map<String, Object> res = new HashMap<String, Object>();
+
+		try {
+			res.put("event", "Update " + image.getProductid() + "'s image");
+			Base64.Decoder decoder = Base64.getDecoder();
+			File file = new File(properties.getImgpath() + "\\" + image.getFilename());
+			byte[] bytes = decoder.decode(image.getBase64().split("base64,")[1]);
+			OutputStream os = new FileOutputStream(file);
+			os.write(bytes);
+			os.close();
+			Product p = ProductRepository.findById(image.getProductid()).get();
+			p.setImgpath(image.getFilename());
+			ProductRepository.save(p);
+			res.put("flag", "success");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			res.put("flag", "failed");
+			return ResponseEntity.badRequest().body(res);
+			// TODO: handle exception
+		}
+		return ResponseEntity.ok().body(res);
+	}
+
+	private static String encoder(String filePath) {
+		String base64File = "";
+		File file = new File(filePath);
+		try (FileInputStream imageInFile = new FileInputStream(file)) {
+			// Reading a file from file system
+			byte fileData[] = new byte[(int) file.length()];
+			imageInFile.read(fileData);
+			base64File = Base64.getEncoder().encodeToString(fileData);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		return base64File;
 	}
 
 }

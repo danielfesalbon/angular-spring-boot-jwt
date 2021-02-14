@@ -44,33 +44,47 @@
 
 
 
-<p-dialog header="Product Details" [(visible)]="productmodal" [modal]="true" [style]="{width: '50vw'}"
+<p-dialog header="Product Details" [(visible)]="productmodal" [modal]="true" [style]="{width: '60vw'}"
     [baseZIndex]="10000" [draggable]="false" [resizable]="false" [closable]="false">
-
-
 
     <div class="p-grid p-fluid">
         <div class="p-col-12 p-md-6 p-lg-4">
-            <label for="productid">Product ID</label>
-            <div *ngIf="onview" id="productid"> {{product.productid}}</div>
-            <input *ngIf="!onview" id="productid" type="text" pKeyFilter="alphanum" pInputText
-                [(ngModel)]="product.productid">
+            <div class="img-panel">
+                <img [src]="'data:image/png;base64,'+product.imgpath" alt="" height="100%" width="100%"
+                    class="img-class">
+            </div>
         </div>
         <div class="p-col-12 p-md-6 p-lg-8">
-            <label for="productname">Product Name</label>
-            <input id="productname" type="text" pInputText [(ngModel)]="product.productname">
+            <div class="p-grid p-fluid">
+                <div class="p-col-12 p-md-6 p-lg-6">
+                    <label for="productid">Product ID</label>
+                    <div *ngIf="onview" id="productid"> {{product.productid}}</div>
+                    <input *ngIf="!onview" id="productid" type="text" pKeyFilter="alphanum" pInputText
+                        [(ngModel)]="product.productid">
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-6">
+                    <label for="declaredprice">Declared Price</label>
+                    <input id="declaredprice" type="text" pKeyFilter="money" pInputText placeholder="0.00"
+                        [(ngModel)]="product.declaredprice">
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-12">
+                    <label for="productname">Product Name</label>
+                    <input id="productname" type="text" pInputText [(ngModel)]="product.productname">
+                </div>
+                <div class="p-col-12 p-md-6 p-lg-6">
+                    <label for="prodstock">Stock</label>
+                    <input id="prodstock" type="text" pKeyFilter="int" pInputText [(ngModel)]="product.stock">
+                    <!--<div id="prodstock"> {{product.stock}}</div>-->
+                </div>
+            </div>
         </div>
-        <div class="p-col-12 p-md-6 p-lg-4">
-            <label for="declaredprice">Declared Price</label>
-            <input id="declaredprice" type="text" pKeyFilter="money" pInputText placeholder="0.00"
-                [(ngModel)]="product.declaredprice">
-        </div>
-        <div class="p-col-12 p-md-6 p-lg-4">
-            <label for="prodstock">Stock</label>
-            <input id="prodstock" type="text" pKeyFilter="int" pInputText [(ngModel)]="product.stock">
-            <!--<div id="prodstock"> {{product.stock}}</div>-->
+        <div class="p-col-12 p-md-6 p-lg-12">
+            <p-fileUpload name="uploader" id="uploader" customUpload="true"
+                (uploadHandler)="myUploader($event, product)">
+            </p-fileUpload>
         </div>
     </div>
+
 
     <ng-template pTemplate="footer">
         <button pButton pRipple icon="pi pi-check" (click)="saveproduct()" label="Save"

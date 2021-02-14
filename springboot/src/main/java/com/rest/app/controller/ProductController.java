@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rest.app.service.ProductService;
 import com.rest.app.table.Product;
+import com.rest.app.util.ImageBody;
 import com.rest.app.util.ProductStatus;
 
 /**
@@ -58,6 +59,11 @@ public class ProductController {
 	@GetMapping("/order/list")
 	public List<ProductStatus> getProductwithStatus() {
 		return productService.getProductwithStatus();
+	}
+
+	@PostMapping("/image/save")
+	public ResponseEntity<Map<String, Object>> saveImage(@RequestBody ImageBody image) {
+		return productService.saveImage(image);
 	}
 
 }

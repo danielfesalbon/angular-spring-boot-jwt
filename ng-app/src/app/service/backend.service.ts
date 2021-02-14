@@ -162,4 +162,8 @@ export class BackendService {
       this.servicelink + '/user/activity?row=' + row + '&page=' + page
     );
   }
+
+  saveimage(req) {
+    return this.http.post<any>(this.servicelink + '/product/image/save', req);
+  }
 }

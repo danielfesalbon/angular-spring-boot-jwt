@@ -58,6 +58,7 @@ export class TransactionComponent implements OnInit {
     this.service.getproductfortx().subscribe(
       (res) => {
         this.products = res;
+        console.log(this.products);
       },
       (err) => {
         this.tokenService.checkSession(err);

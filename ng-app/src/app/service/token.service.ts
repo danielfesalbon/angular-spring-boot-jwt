@@ -38,6 +38,7 @@ export class TokenService {
   }
 
   checkSession(err) {
+    console.log(err);
     if (err.error.status == 401) {
       this.confirmationService.confirm({
         icon: 'pi pi-exclamation-triangle',

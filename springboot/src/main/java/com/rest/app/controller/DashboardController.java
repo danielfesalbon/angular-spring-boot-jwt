@@ -29,7 +29,7 @@ public class DashboardController {
 	@GetMapping("/settings")
 	public ResponseEntity<SettingsProperties> getProperties() {
 		return ResponseEntity.ok(new SettingsProperties(properties.getDb_url(), properties.getDb_user(),
-				properties.getDb_password(), properties.getApp_port()));
+				properties.getDb_password(), properties.getApp_port(), properties.getImgpath()));
 	}
 
 }

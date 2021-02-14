@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 
 import com.rest.app.table.Product;
+import com.rest.app.util.ImageBody;
 import com.rest.app.util.ProductStatus;
 
 /**
@@ -26,5 +27,7 @@ public interface ProductService {
 	ResponseEntity<Product> getProductdetails(String productid);
 
 	List<ProductStatus> getProductwithStatus();
+
+	ResponseEntity<Map<String, Object>> saveImage(ImageBody image);
 
 }

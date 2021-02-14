@@ -19,7 +19,6 @@ import { TxdetailsComponent } from './pages/txdetails/txdetails.component';
 
 import { authInterceptorProviders } from './service/authinterceptor.service';
 
-
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
@@ -69,11 +68,6 @@ import { BadgeModule } from 'primeng/badge';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { PaginatorModule } from 'primeng/paginator';
 
-
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -88,7 +82,7 @@ import { PaginatorModule } from 'primeng/paginator';
     UseraccountComponent,
     ConfigurationComponent,
     AudittrailComponent,
-    TxdetailsComponent
+    TxdetailsComponent,
   ],
   imports: [
     RippleModule,
@@ -141,9 +135,14 @@ import { PaginatorModule } from 'primeng/paginator';
     AppRoutingModule,
     TableModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
-  providers: [ConfirmationService, MessageService, FileUpload, authInterceptorProviders],
-  bootstrap: [AppComponent]
+  providers: [
+    ConfirmationService,
+    MessageService,
+    FileUpload,
+    authInterceptorProviders,
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

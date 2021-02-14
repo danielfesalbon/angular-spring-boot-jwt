@@ -27,7 +27,7 @@
     <ng-template let-product pTemplate="listItem">
         <div class="p-col-12">
             <div class="product-list-item">
-                <!--<img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.name" />-->
+                <img [src]="'data:image/png;base64,'+product.imgpath" [alt]="product.name" />
                 <div class="product-list-detail">
                     <div class="product-name">{{product.productname}}</div>
                     <div class="product-description">{{product.declaredprice | number: '1.2'}}</div>
@@ -68,7 +68,7 @@
                     <span [class]="'p-badge status-' + product.status.toLowerCase()">{{product.status}}</span>
                 </div>
                 <div class="product-grid-item-content">
-                    <!--<img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.name" />-->
+                    <img [src]="'data:image/png;base64,'+product.imgpath" [alt]="product.name" />
                     <div class="product-name">{{product.productname}}</div>
                     <div class="product-description">{{product.declaredprice | number: '1.2'}}</div>
                 </div>

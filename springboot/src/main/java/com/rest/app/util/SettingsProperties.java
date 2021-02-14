@@ -21,18 +21,29 @@ public class SettingsProperties {
 	private String db_password;
 	@Value("${server.port}")
 	private String app_port;
+	@Value("${prod-img.path}")
+	private String imgpath;
+
+	public String getImgpath() {
+		return imgpath;
+	}
+
+	public void setImgpath(String imgpath) {
+		this.imgpath = imgpath;
+	}
 
 	public SettingsProperties() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public SettingsProperties(String db_url, String db_user, String db_password, String app_port) {
+	public SettingsProperties(String db_url, String db_user, String db_password, String app_port, String imgpath) {
 		super();
 		this.db_url = db_url;
 		this.db_user = db_user;
 		this.db_password = db_password;
 		this.app_port = app_port;
+		this.imgpath = imgpath;
 	}
 
 	public String getDb_url() {
