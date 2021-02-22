@@ -46,6 +46,8 @@ public class ProductServiceImpl implements ProductService {
 			for (Product l : list) {
 				if (l.getImgpath() != null && !l.getImgpath().isEmpty()) {
 					l.setImgpath(encoder(properties.getImgpath() + "\\" + l.getImgpath()));
+				} else {
+					l.setImgpath(encoder(properties.getImgpath() + "\\" + "noimage.png"));
 				}
 			}
 			return list;
@@ -128,6 +130,8 @@ public class ProductServiceImpl implements ProductService {
 				Integer stock = n.getStock();
 				if (n.getImgpath() != null && !n.getImgpath().isEmpty()) {
 					n.setImgpath(encoder(properties.getImgpath() + "\\" + n.getImgpath()));
+				} else {
+					n.setImgpath(encoder(properties.getImgpath() + "\\" + "noimageavailable.jpg"));
 				}
 				n.setStatus(stock == 0 ? "OUT-OF-STOCK" : n.getStock() <= low ? "LOW" : "IN-STOCK");
 				list.add(n);

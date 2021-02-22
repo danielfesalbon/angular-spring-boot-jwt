@@ -27,7 +27,7 @@ export class TransactionComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private router: Router,
     private tokenService: TokenService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.transaction = {};

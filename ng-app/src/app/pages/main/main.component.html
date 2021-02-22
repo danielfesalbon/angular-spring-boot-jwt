@@ -6,12 +6,10 @@
         <li><a routerLink="product">Product</a></li>
         <li><a routerLink="sales">Sales</a></li>
         <li><a routerLink="settings">Settings</a></li>
-        <li style="float:right" class="btn"> <button pButton pRipple label="Log out" icon="pi pi-sign-out"
-                class="p-mr-2 p-mb-2" (click)="onlogout()"></button>
+        <li style="float:right" class="btn"> <button pButton pRipple label="Log out" icon="pi pi-sign-out" class="p-mr-2 p-mb-2" (click)="onlogout()"></button>
         </li>
         <li style="float:right; margin-right: 5px;" class="btn">
-            <button pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded" (click)="showprofile()"
-                pTooltip="View User Profile" tooltipPosition="bottom"></button>
+            <button pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded" (click)="showprofile()" pTooltip="View User Profile" tooltipPosition="bottom"></button>
         </li>
     </ul>
 
@@ -24,17 +22,14 @@
     </div>
 
     <div class="p-grid p-align-stretch vertical-container">
-        <div class="p-col-12 p-sm-6 lbl-footer">
+        <div class="p-col-12 p-sm-4 lbl-footer">
             Location: Masuerte Old Yellow Stall 63-64
         </div>
-        <div class="p-col-12 p-sm-6 lbl-footer">
+        <div class="p-col-12 p-sm-4 lbl-footer">
             Contact: 09991050028
         </div>
-        <div class="p-col-12 p-sm-6 lbl-footer">
+        <div class="p-col-12 p-sm-4 lbl-footer">
             Facebook: Cotton Collection
-        </div>
-        <div class="p-col-12 p-sm-6 lbl-footer">
-            Shoppee: Cotton Collection
         </div>
         <div class="p-col lbl-footer-2">
             2021 © Cotton Collection
@@ -45,8 +40,7 @@
 
 <p-confirmDialog [baseZIndex]="10000" rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
 
-<p-dialog header="Hello!" [(visible)]="usermodal" [modal]="true" [position]="position" [style]="{width: '35vw'}"
-    [baseZIndex]="10000" [draggable]="false" [resizable]="false" [closable]="false">
+<p-dialog header="Hello!" [(visible)]="usermodal" [modal]="true" [position]="position" [style]="{width: '35vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [closable]="false">
 
     <div class="p-grid p-fluid">
         <div class="p-col-12 p-md-6 p-lg-12">
@@ -88,9 +82,7 @@
 
 
     <ng-template pTemplate="footer">
-        <button icon="pi pi-check" (click)="changepassword()"
-            *ngIf="user != undefined && user.password != null && user.password != '' && user.password == confpassword"
-            pButton pRipple type="button" label="Update Password" class="p-button-success"></button>
+        <button icon="pi pi-check" (click)="changepassword()" *ngIf="user != undefined && user.password != null && user.password != '' && user.password == confpassword" pButton pRipple type="button" label="Update Password" class="p-button-success"></button>
         <p-button icon="pi pi-times" pRipple (click)="usermodal=false" label="Close" styleClass="p-button-text">
         </p-button>
     </ng-template>
