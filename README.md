@@ -17,3 +17,12 @@
  - https://mkyong.com/
  - https://angular.io/
  - http://primefaces.org/primeng/
+
+
+ ## Demo
+ https://www.youtube.com/watch?v=z7Z-gR28R6Y
+ <br>
+ [![Alt text](https://img.youtube.com/vi/z7Z-gR28R6Y/0.jpg)](https://www.youtube.com/watch?v=z7Z-gR28R6Y)
+ 
+ # Demo Project
+ Checkout: http://dental-demo1.s3-website-ap-southeast-1.amazonaws.com/back-office/login
